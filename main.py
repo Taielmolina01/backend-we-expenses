@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from core.config import settings 
 from controller.group_controller import router as group_controller
 from controller.user_controller import router as user_controller
-from controller.transaction_controller import router as transaction_controller
+from controller.payment_controller import router as transaction_controller
 from database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
