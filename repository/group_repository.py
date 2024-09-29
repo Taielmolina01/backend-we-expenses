@@ -20,8 +20,7 @@ class GroupRepository:
         self.db.refresh(group)
         return group
     
-    def delete_group(self, group_id: int) -> bool:
-        group = self.get_group(group_id)
+    def delete_group(self, group: GroupBase) -> bool:
         self.db.delete(group)
         self.db.commit()
         return True

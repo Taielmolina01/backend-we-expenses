@@ -32,10 +32,10 @@ class DebtRepository:
     
     def update_debt(self, debt: DebtBase) -> DebtBase:
         self.db.commit()
+        self.db.refresh(debt)
         return debt
     
-    def delete_debt(self, debt_id: int) -> bool:
-        debt = self.get_debt(debt_id)
+    def delete_debt(self, debt: DebtBase) -> bool:
         self.db.delete(debt)
         self.db.commit()
         return True
