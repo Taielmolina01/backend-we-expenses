@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from tables.user_base import UserBase, UserUpdate
 from service.user_service import UserService
 from service.exceptions.users_exceptions import *
+from service.users_by_groups import UserByGroupService
 
 router = APIRouter()
 
@@ -45,6 +46,12 @@ async def update_user(user_id: int,
     except UserNotRegistered as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
     
+
+@router.put("/users/{user_id}/groups")
+async def get_groups(user_id: int,
+                     db: Session = Depends(get_database)):
+    try:
+        return 
 @router.delete("/users/{user_id}")
 async def delete_user(user_id: int, db: Session = Depends(get_database)):
     try:
