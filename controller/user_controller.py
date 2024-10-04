@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from tables.user_base import UserBase, UserUpdate
 from service.user_service import UserService
 from service.exceptions.users_exceptions import *
-from service.users_by_groups import UserByGroupService
+from service.users_by_groups_service import UserByGroupService
 
 router = APIRouter()
 

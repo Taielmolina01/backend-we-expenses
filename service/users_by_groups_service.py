@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
-from repository.users_by_group_repository import UsersByGroupRepository
+from repository.users_by_groups_repository import UsersByGroupRepository
 from service.group_service import GroupService
 from service.user_service import UserService
 from service.exceptions.groups_exceptions import GroupNotRegistered
 from service.exceptions.users_exceptions import UserNotRegistered
-from service.exceptions.user_in_group_exceptions import UserNotRegisteredInGroup
+from service.exceptions.users_by_groups_exceptions import UserNotRegisteredInGroup
 from tables.users_by_group_base import UserInGroupBase
 
 class UsersByGroupService:
@@ -39,10 +39,16 @@ class UsersByGroupService:
 
     def get_users_by_group(self,
                         group_id: int) -> list[UserInGroupBase]:
+        group = self.group_service.get_group(group_id)
+        if not group:
+            raise GroupNotRegistered(group_id)
         return self.users_by_groups_repository.get_users_by_group(group_id)
     
     def get_groups_by_user(self,
                            user_id: int) -> list[UserInGroupBase]:
+        user = self.group_service.get_group(user_id)
+        if not user:
+            raise UserNotRegistered(user_id)
         return self.users_by_groups_repository.get_groups_by_user(user_id)
     
     def delete_user_in_group(self,
