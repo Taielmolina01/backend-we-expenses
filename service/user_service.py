@@ -12,8 +12,8 @@ class UserService:
 
     def create_user(self,
                     user: UserBase) -> UserBase:
-        registeredUser = self.get_user(user.user_id)
-        if registeredUser is not None:
+        registered_user = self.get_user(user.user_id)
+        if registered_user is not None:
            raise UserAlreadyRegistered(user.user_id)
         if not user.name:
            raise UserWithoutName()
