@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 
 router = APIRouter()
 
-async def create_transaction():
+async def create_payment():
 
-async def get_transactions():
+async def get_payments():
 
 async def get_transaction():
 
-async def update_transaction():
+async def update_payment():
 
-async def delete_transaction():
+async def delete_payment():
 

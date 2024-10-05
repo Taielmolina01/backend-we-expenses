@@ -8,11 +8,6 @@ from service.users_by_groups_service import UserByGroupService
 
 router = APIRouter()
 
-# post
-# put
-# get
-# delete
-
 @router.post("/users")
 async def create_user(user: UserBase, 
                       db: Session = Depends(get_database)):
@@ -23,11 +18,9 @@ async def create_user(user: UserBase,
     except UserWithoutName as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
     
-    
 @router.get("/users")
 async def get_users(db: Session = Depends(get_database)):
     return UserService(db).get_users()
-    
 
 @router.get("/users/{user_id}")
 async def get_user(user_id: int,
@@ -46,16 +39,9 @@ async def update_user(user_id: int,
     except UserNotRegistered as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
     
-
-@router.put("/users/{user_id}/groups")
-async def get_groups(user_id: int,
-                     db: Session = Depends(get_database)):
-    try:
-        return 
 @router.delete("/users/{user_id}")
 async def delete_user(user_id: int, db: Session = Depends(get_database)):
     try:
         return UserService(db).delete_user(user_id)
     except UserNotRegistered as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
-
