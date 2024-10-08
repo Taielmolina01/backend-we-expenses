@@ -6,7 +6,7 @@ async def create_payment():
 
 async def get_payments():
 
-async def get_transaction():
+async def get_payment():
 
 async def update_payment():
 
