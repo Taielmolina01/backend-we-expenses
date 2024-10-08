@@ -1,6 +1,6 @@
 from database import Base
 from pydantic import BaseModel
-from sqlalchemy import Column, Integer, Float, ForeignKey
+from sqlalchemy import Column, Integer, Float, ForeignKey, String
 from typing import Optional
 
 class DebtBase(Base):
@@ -9,8 +9,10 @@ class DebtBase(Base):
     debt_id = Column(Integer, primary_key=True, autoincrement=True)
     payment_id = Column(Integer, ForeignKey("payments.payment_id"))
     group_id = Column(Integer, ForeignKey("groups.group_id"))
-    debtor_id = Column(Integer, ForeignKey("users.user_id"))
-    creditor_id = Column(Integer, ForeignKey("users.user_id"))
+#    debtor_id = Column(Integer, ForeignKey("users.user_id"))
+#    creditor_id = Column(Integer, ForeignKey("users.user_id"))
+    debtor_mail = Column(String, ForeignKey("users.mail"))
+    creditor_mail = Column(String, ForeignKey("users.mail"))
     percentage = Column(Float)
 
 class DebtUpdate(BaseModel):

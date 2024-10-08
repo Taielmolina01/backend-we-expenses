@@ -1,6 +1,6 @@
 from database import Base
 import enum
-from sqlalchemy import Column, Integer, Float, Date, Enum, ForeignKey
+from sqlalchemy import Column, Integer, Float, Date, Enum, ForeignKey, String
 from datetime import date
 from pydantic import BaseModel
 from typing import Optional
@@ -20,7 +20,8 @@ class PaymentBase(Base):
 
     payment_id = Column(Integer, primary_key=True, autoincrement=True)
     group_id = Column(Integer, ForeignKey("groups.group_id"))
-    payer_id = Column(Integer, ForeignKey("users.user_id"))
+#    payer_id = Column(Integer, ForeignKey("users.user_id"))
+    payer_mail = Column(String, ForeignKey("users.mail"))
     date = Column(Date)
     category = Column(Enum(Category))
     amount = Column(Float)

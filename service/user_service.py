@@ -21,10 +21,10 @@ class UserService:
         return self.user_repository.create_user(user)
        
     def get_user(self, 
-                 user_id: int) -> UserBase:
-        user = self.user_repository.get_user(user_id)
+                 mail_user: str) -> UserBase:
+        user = self.user_repository.get_user(mail_user)
         if user is None:
-            raise UserNotRegistered(user_id)
+            raise UserNotRegistered(mail_user)
         return user
        
     def get_users(self) -> list[UserBase]:

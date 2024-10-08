@@ -23,10 +23,10 @@ async def get_users(db: Session = Depends(get_database)):
     return UserService(db).get_users()
 
 @router.get("/users/{user_id}")
-async def get_user(user_id: int,
+async def get_user(mail: str,
                    db: Session = Depends(get_database)):
     try:
-        return UserService(db).get_user(user_id)
+        return UserService(db).get_user(mail)
     except UserNotRegistered as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)        
 
