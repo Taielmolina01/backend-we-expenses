@@ -10,7 +10,7 @@ class UserBase(Base):
     mail = Column(Integer, primary_key=True)
     name = Column(String)
     balance = Column(Float, default=0)
-    password = Column(String)
+    hashed_password = Column(String)
 
 class UserUpdate(BaseModel):
     name = Optional[str] = None
