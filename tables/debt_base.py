@@ -1,7 +1,5 @@
 from database import Base
-from pydantic import BaseModel
 from sqlalchemy import Column, Integer, Float, ForeignKey, String
-from typing import Optional
 
 class DebtBase(Base):
     __tablename__ = "debts"

@@ -33,7 +33,7 @@ class PaymentRepository:
         return self.db.query(PaymentBase).filter(PaymentBase.payer_id == user_id and PaymentBase.group_id == group_id).all()
 
     def update_payment(self, 
-                       payment: PaymentModel) -> PaymentBase:
+                       payment: PaymentUpdate) -> PaymentBase:
         self.db.commit()
         self.db.refresh(payment)
         return payment

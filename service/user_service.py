@@ -2,8 +2,7 @@ from repository.user_repository import UserRepository
 from sqlalchemy.orm import Session
 from models.user import UserModel, UserUpdate
 from tables.user_base import UserBase
-from exceptions.users_exceptions import * 
-
+from service.exceptions.users_exceptions import *
 
 class UserService:
 
@@ -43,6 +42,6 @@ class UserService:
         
        
     def delete_user(self, 
-                    user: UserModel) -> bool:
+                    user: UserBase) -> bool:
        user = self.get_user(user.email)
        return self.user_repository.delete_user(user.email)

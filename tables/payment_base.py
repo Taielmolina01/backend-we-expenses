@@ -1,9 +1,6 @@
 from database import Base
 import enum
 from sqlalchemy import Column, Integer, Float, Date, Enum, ForeignKey, String
-from datetime import date
-from pydantic import BaseModel
-from typing import Optional
 
 class Category(enum.Enum):
     FOOD = 0
@@ -24,18 +21,3 @@ class PaymentBase(Base):
     date = Column(Date)
     category = Column(Enum(Category))
     amount = Column(Float)
-
-class PaymentUpdate(BaseModel):
-    group_id: Optional[int] = None
-    payer_id: Optional[int] = None
-    date: Optional[Date] = None
-    category: Optional[Enum(Category)] = None
-    amount: Optional[float] = None
-
-class PaymentResponse(BaseModel):
-    debt_id: int
-    group_id: int
-    payer_email: str
-    date: date
-    category: Category
-    amount: float

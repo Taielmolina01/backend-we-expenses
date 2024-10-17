@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from repository.payment_repository import PaymentRepository
 from models.payment import PaymentModel, PaymentUpdate
 from tables.payment_base import PaymentBase
+from service.exceptions.payments_exceptions import *
 
 class PaymentService:
 

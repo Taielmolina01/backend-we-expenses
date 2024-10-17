@@ -1,7 +1,5 @@
 from database import Base
-from sqlalchemy import Column, Integer, String, Float
-from pydantic import Optional, BaseModel
-
+from sqlalchemy import Column, String, Float
 
 class UserBase(Base):
     __tablename__ = "users"
@@ -10,8 +8,3 @@ class UserBase(Base):
     name = Column(String)
     balance = Column(Float, default=0)
     password = Column(String, nullable=False)
-
-class UserUpdate(BaseModel):
-    name: Optional[str] = None
-    balance: Optional[float] = None
-    password: Optional[str] = None

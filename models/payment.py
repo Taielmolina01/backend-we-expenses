@@ -1,15 +1,29 @@
-from pydantic import BaseModel, Optional
+from pydantic import BaseModel
+from typing import Optional
+import enum
+from datetime import date
+
+class Category(enum.Enum):
+    FOOD = 0
+    UTILITIES = 1
+    CLOTHING = 2
+    HEALTCARE = 3
+    PERSONAL = 4
+    EDUCATION = 5
+    GIFTS = 6
+    ENTERTAINMENT = 7
 
 class PaymentModel(BaseModel):
-    payment_id: int
     group_id: int
-    debtor_id: str
-    creditor_id: str
-    percentage: float
+    payer_email: str
+    date: date
+    category: Category
+    amount: float
 
 class PaymentUpdate(BaseModel):
-    payment_id: Optional[int] = None
+    Optional[int] = None
     group_id: Optional[int] = None
-    debtor_id: Optional[str] = None
-    creditor_id: Optional[str] = None
-    percentage: Optional[float] = None
+    payer_email: Optional[str] = None
+    date: Optional[date] = None
+    category: Optional[Category] = None
+    amount: Optional[float] = None

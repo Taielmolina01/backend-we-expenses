@@ -1,6 +1,5 @@
 from database import Base
 from sqlalchemy import Column, Integer, ForeignKey, String
-from pydantic import BaseModel
 
 class UserInGroupBase(Base):
     __tablename__ = "users_by_group"

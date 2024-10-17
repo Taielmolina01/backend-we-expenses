@@ -3,7 +3,7 @@ from repository.user_invitation_repository import UserInvitationRepository
 from tables.user_invitation_base import UserInvitationBase
 from models.user_invitation import UserInvitationModel
 from service.user_service import UserService
-from exceptions.users_exceptions import UserNotRegistered
+from service.exceptions.users_exceptions import UserNotRegistered
 
 class InvitationService:
 
