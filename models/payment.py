@@ -24,7 +24,6 @@ class PaymentModel(BaseModel):
         orm_mode = True 
 
 class PaymentUpdate(BaseModel):
-    Optional[int] = None
     group_id: Optional[int] = None
     payer_email: Optional[str] = None
     date: Optional[date] = None

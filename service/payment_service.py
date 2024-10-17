@@ -10,7 +10,6 @@ class PaymentService:
                  db: Session):
         self.payment_repository = PaymentRepository(db)
 
-
     def create_payment(self,
                        payment: PaymentModel) -> PaymentBase:
         return self.payment_repository.create_payment(payment)
