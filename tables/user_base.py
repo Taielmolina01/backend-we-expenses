@@ -1,4 +1,4 @@
-from database import Base
+from databases import Base
 from sqlalchemy import Column, String, Float
 
 class UserBase(Base):
