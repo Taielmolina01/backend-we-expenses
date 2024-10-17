@@ -3,4 +3,5 @@ fastapi
 sqlalchemy
 pytest
 pytest-bdd
+passlib
 psycopg2-binary
