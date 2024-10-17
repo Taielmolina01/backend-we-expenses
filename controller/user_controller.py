@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from models.user import UserModel, UserUpdate
 from service.user_service import UserService
 from service.exceptions.users_exceptions import *
-from service.users_by_groups_service import UserByGroupService
 from passlib.context import CryptContext
 
 router = APIRouter()

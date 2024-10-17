@@ -24,23 +24,23 @@ class DebtService:
     def get_debts_by_user_and_group(self, 
                                     user_email: str, 
                                     group_id: int) -> list[DebtBase]:
-        return self.debt_repository.get_debts_by_user_and_group()
+        return self.debt_repository.get_debts_by_user_and_group(user_email, group_id)
     
     def get_debts_by_debtor(self, 
                             user_email: str) -> list[DebtBase]:
-        return self.debt_repository.get_debts_by_debtor()
+        return self.debt_repository.get_debts_by_debtor(user_email)
     
     def get_debts_by_creditor(self, 
                               user_email: str) -> list[DebtBase]:
-        return self.debt_repository.get_debts_by_creditor()
+        return self.debt_repository.get_debts_by_creditor(user_email)
 
     def get_debts_by_group(self, 
                            group_id: int) -> list[DebtBase]:
-        return self.debt_repository.get_debts_by_group()
+        return self.debt_repository.get_debts_by_group(group_id)
     
     def get_debts_by_payment_id(self, 
                                 payment_id: int) -> list[DebtBase]:
-        return self.debt_repository.get_debts_by_payment_id()
+        return self.debt_repository.get_debts_by_payment_id(payment_id)
             
     def update_debt(self,
                     debt_id: int,

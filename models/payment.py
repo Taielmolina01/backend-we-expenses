@@ -20,6 +20,9 @@ class PaymentModel(BaseModel):
     category: Category
     amount: float
 
+    class Config:
+        orm_mode = True 
+
 class PaymentUpdate(BaseModel):
     Optional[int] = None
     group_id: Optional[int] = None
@@ -27,3 +30,6 @@ class PaymentUpdate(BaseModel):
     date: Optional[date] = None
     category: Optional[Category] = None
     amount: Optional[float] = None
+
+    class Config:
+        orm_mode = True 

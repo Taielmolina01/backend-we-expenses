@@ -26,12 +26,12 @@ def head():
 
 @app.get("/")
 def home():
-    return {"message": "Bienvenido a WeExpenses"}
+    return {"message": "Bienvenido a OurExpenses"}
 
-app.include_router(group_controller)
-app.include_router(user_controller)
-app.include_router(payment_controller)
 app.include_router(debt_controller)
+app.include_router(group_controller)
+app.include_router(payment_controller)
+app.include_router(user_controller)
 app.include_router(user_invitation_controller)
 app.include_router(users_by_groups_controller)
 

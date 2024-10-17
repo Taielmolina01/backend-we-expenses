@@ -7,8 +7,14 @@ class UserModel(BaseModel):
     balance: float
     password: str
 
+    class Config:
+        orm_mode = True 
+
 class UserUpdate(BaseModel):
     email: Optional[str] = None
     name: Optional[str] = None
     balance: Optional[float] = None
     password: Optional[str] = None
+
+    class Config:
+        orm_mode = True 

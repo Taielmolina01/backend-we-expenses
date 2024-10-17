@@ -38,7 +38,7 @@ async def update_debt(debt_id: int,
 
 
 @router.delete("/debts")
-async def delete_debt(debt: DebtBase,
+async def delete_debt(debt: DebtModel,
                       db: Session = Depends(get_database)):
     try:
         return DebtService(db).delete_debt(debt)

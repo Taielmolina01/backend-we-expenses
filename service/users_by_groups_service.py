@@ -8,7 +8,7 @@ from service.exceptions.users_by_groups_exceptions import UserNotRegisteredInGro
 from tables.users_by_group_base import UserInGroupBase
 from models.user_by_group import UserByGroupModel
 
-class UsersByGroupService:
+class UserByGroupService:
 
     def __init__(self,
                  db: Session):

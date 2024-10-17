@@ -5,7 +5,7 @@ from models.user_invitation import UserInvitationModel
 from service.user_service import UserService
 from service.exceptions.users_exceptions import UserNotRegistered
 
-class InvitationService:
+class UserInvitationService:
 
     def __init__(self,
                  db: Session):

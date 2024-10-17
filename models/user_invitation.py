@@ -9,9 +9,15 @@ class UserInvitationModel(BaseModel):
     send_date: date
     expire_date: date
 
+    class Config:
+        orm_mode = True 
+
 class UserInvitationUPdate(BaseModel):
     invitator_email: Optional[str] = None
     guest_email: Optional[str] = None
     id_group: Optional[int] = None
     send_date: Optional[date] = None
     expire_date: Optional[date] = None
+
+    class Config:
+        orm_mode = True 

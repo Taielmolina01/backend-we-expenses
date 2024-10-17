@@ -3,7 +3,7 @@ from database import get_database
 from sqlalchemy.orm import Session
 from models.user_invitation import UserInvitationModel
 from service.exceptions.users_exceptions import *
-from service.users_by_groups_service import UserInvitationService
+from service.user_invitation_service import UserInvitationService
 
 router = APIRouter()
 

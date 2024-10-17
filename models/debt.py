@@ -8,9 +8,15 @@ class DebtModel(BaseModel):
     creditor_email: str
     percentage: float
 
+    class Config:
+        orm_mode = True 
+
 class DebtUpdate(BaseModel):
     payment_id: Optional[int] = None
     group_id: Optional[int] = None
     debtor_id: Optional[int] = None
     creditor_id: Optional[int] = None
     percentage: Optional[float] = None
+
+    class Config:
+        orm_mode = True 

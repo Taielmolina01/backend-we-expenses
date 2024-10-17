@@ -9,4 +9,4 @@ class DebtBase(Base):
     group_id = Column(Integer, ForeignKey("groups.group_id"))
     debtor_email = Column(String, ForeignKey("users.email"))
     creditor_email = Column(String, ForeignKey("users.email"))
-    percentage = Column(Float)
+    percentage = Column(Float)    
