@@ -1,20 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status
 from database import get_database
 from sqlalchemy.orm import Session
 from models.user import UserModel, UserUpdate
 from service.user_service import UserService
 from service.exceptions.users_exceptions import *
-from passlib.context import CryptContext
-
+from login_controller import get_hashed_password
 router = APIRouter()
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-def hash_password(password: str):
-    return pwd_context.hash(password)
-
-def verify(plain_password: str, hashed_password: str):     
-  return pwd_context.verify(plain_password, hashed_password)
 
 @router.post("/users")
 async def create_user(user: UserModel, 
@@ -23,7 +14,7 @@ async def create_user(user: UserModel,
         new_user = UserModel(email=user.email,
                             name=user.name,
                             balance=user.balance,
-                            password=hash_password(user.password))
+                            password=get_hashed_password(user.password))
         return UserService(db).create_user(new_user)
     except UserAlreadyRegistered as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
@@ -32,19 +23,7 @@ async def create_user(user: UserModel,
     
 @router.get("/users")
 async def get_users(db: Session = Depends(get_database)):
-    return UserService(db).get_users()
-
-@router.post('/login')
-def login(user: UserModel, 
-          db: Session = Depends(get_database)) -> bool:
-    try:
-        registered_user = UserService.get_user(user.email)
-        if verify(user.password, registered_user.password):
-            return True
-        return False
-    except UserNotRegistered as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)        
-       
+    return UserService(db).get_users() 
 
 @router.get("/users/{user_email}")
 async def get_user(user_email: str,

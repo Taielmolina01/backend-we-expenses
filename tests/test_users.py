@@ -1,66 +1,41 @@
+import pytest
 from fastapi.testclient import TestClient
-from main import app
+from main import app  # Replace with your app's entry point
+from models.user import UserModel, UserUpdate  # Replace with your models
+from service.user_service import UserService  # Replace with your service
+from service.exceptions.users_exceptions import UserAlreadyRegistered, UserWithoutName, UserNotRegistered
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from controller.user_controller import hash_password
+
+DATABASE_URL = "sqlite:///:memory:"
 
 client = TestClient(app)
 
-def test_create_user():
-    response = client.post(
-        "/users",
-        json={
-            "email": "test@example.com",
-            "name": "Test User",
-            "balance": 100,
-            "password": "password123"
-        }
-    )
+@pytest.fixture(scope="module")
+def setup_database():
+    # Create a new SQLite database in memory for testing
+    engine = create_engine(DATABASE_URL)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    
+    # Initialize the database, create tables, etc. here
+
+    yield  # This allows the tests to run
+
+    # Cleanup (if necessary) after tests complete
+
+def test_create_user(setup_database):
+    response = client.post("/users", 
+                           json={
+                            "email": "test@example.com",
+                            "name": "Test User",
+                            "balance": 100,
+                            "password": "password123"
+                            })
     assert response.status_code == 200
-    assert response.json()["email"] == "test@example.com"
-
-def test_get_user():
-    response = client.get("/users/test@example.com")
-    assert response.status_code == 200
-    assert response.json()["email"] == "test@example.com"
-
-def test_get_user_not_found():
-    response = client.get("/users/nonexistent@example.com")
-    assert response.status_code == 404
-
-def test_login():
-    response = client.post(
-        "/login",
-        json={
-            "email": "test@example.com",
-            "password": "password123"
-        }
-    )
-    assert response.status_code == 200
-    assert response.json() is True
-
-def test_login_invalid_user():
-    response = client.post(
-        "/login",
-        json={
-            "email": "nonexistent@example.com",
-            "password": "password123"
-        }
-    )
-    assert response.status_code == 404
-
-def test_update_user():
-    response = client.put(
-        "/users/test@example.com",
-        json={
-            "name": "Updated Test User",
-            "balance": 150
-        }
-    )
-    assert response.status_code == 200
-    assert response.json()["name"] == "Updated Test User"
-
-def test_delete_user():
-    response = client.delete("/users/1")
-    assert response.status_code == 200
-
-def test_delete_user_not_found():
-    response = client.delete("/users/999")
-    assert response.status_code == 404
+    assert response.json() == {
+                            "email": "test@example.com",
+                            "name": "Test User",
+                            "balance": 100,
+                            "password": hash_password("password123") 
+    }

@@ -17,7 +17,6 @@ class UserService:
            raise UserAlreadyRegistered(user.email)
         if not user.name:
            raise UserWithoutName()
-        # balance puede crearse con algo distinto a 0?
         return self.user_repository.create_user(user)
        
     def get_user(self, 

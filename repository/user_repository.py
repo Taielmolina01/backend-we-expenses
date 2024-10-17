@@ -8,7 +8,7 @@ class UserRepository:
         self.db = db
 
     def create_user(self, 
-                    user: UserModel):
+                    user: UserModel) -> UserBase:
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)
