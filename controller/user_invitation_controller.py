@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from databases import get_database
+from database import get_database
 from sqlalchemy.orm import Session
 from models.user_invitation import UserInvitationModel
 from service.exceptions.users_exceptions import *

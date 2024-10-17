@@ -1,7 +1,6 @@
 import pytest
-import os
 
-from databases import (
+from database import (
     Base,
     engine,
     SessionLocal,

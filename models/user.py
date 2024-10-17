@@ -20,6 +20,10 @@ class UserUpdate(BaseModel):
     class Config:
         orm_mode = True 
 
+class UserLoginModel(BaseModel):
+    email: str
+    password: str
+
 class TokenSchema(BaseModel):
     access_token: str
     refresh_token: str

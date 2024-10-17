@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from service.debt_service import *
-from databases import get_database
+from database import get_database
 from sqlalchemy.orm import Session
 from models.debt import DebtModel, DebtUpdate
 from service.exceptions.debts_exceptions import *

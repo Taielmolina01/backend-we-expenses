@@ -12,6 +12,7 @@ class PaymentService:
 
     def create_payment(self,
                        payment: PaymentModel) -> PaymentBase:
+        # agregar la logica de la deuda a cada usuario del grupo
         return self.payment_repository.create_payment(payment)
         
     def get_payment(self,
@@ -34,9 +35,11 @@ class PaymentService:
     def update_payment(self,
                        payment_id: int,
                        payment_update: PaymentUpdate) -> PaymentBase:
+        # agregar la logica de la deuda a cada usuario del grupo
         return self.payment_repository.update_payment(payment_id, payment_update)
         
 
     def delete_payment(self,
                        payment: PaymentModel) -> bool:
+        #agregar la logica de la deuda a cada usuario del grupo
         return self.payment_repository.delete_payment(payment)

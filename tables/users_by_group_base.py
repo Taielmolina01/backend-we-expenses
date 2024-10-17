@@ -1,4 +1,4 @@
-from databases import Base
+from database import Base
 from sqlalchemy import Column, Integer, ForeignKey, String
 
 class UserInGroupBase(Base):

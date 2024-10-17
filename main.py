@@ -5,7 +5,8 @@ from controller.payment_controller import router as payment_controller
 from controller.debt_controller import router as debt_controller
 from controller.user_invitation_controller import router as user_invitation_controller
 from controller.users_by_groups_controller import router as users_by_groups_controller
-from databases import engine, Base
+from controller.login_controller import router as login_controller
+from database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
 Base.metadata.create_all(bind=engine)
@@ -34,6 +35,7 @@ app.include_router(payment_controller)
 app.include_router(user_controller)
 app.include_router(user_invitation_controller)
 app.include_router(users_by_groups_controller)
+app.include_router(login_controller)
 
 app.title = "OurExpenses"
 app.version = "1.0"

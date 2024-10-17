@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from databases import get_database
+from database import get_database
 from sqlalchemy.orm import Session
 from service.users_by_groups_service import UserByGroupService
 from service.exceptions.groups_exceptions import GroupNotRegistered
