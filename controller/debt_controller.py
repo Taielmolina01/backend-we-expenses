@@ -2,14 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from service.debt_service import *
 from database import get_database
 from sqlalchemy.orm import Session
-from tables.debt_base import DebtBase, DebtUpdate
+from models.debt import DebtModel, DebtUpdate
 from service.exceptions.debts_exceptions import *
 
 router = APIRouter()
 
 @router.post("/debts")
-async def create_debt(debt: DebtBase,
-                      db: Session = Depends(get_database)):
+async def create_debt(debt: DebtModel,
+                      db: Session = Depends(get_database)) :
     try:
         return DebtService(db).create_debt(debt)
     except DebtAlreadyRegistered as e:

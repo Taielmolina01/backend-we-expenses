@@ -6,12 +6,12 @@ from pydantic import Optional, BaseModel
 class UserBase(Base):
     __tablename__ = "users"
 
-#    user_id = Column(Integer, primary_key=True, autoincrement=True)
-    mail = Column(Integer, primary_key=True)
+    email = Column(String, primary_key=True, nullable=False)
     name = Column(String)
     balance = Column(Float, default=0)
-    hashed_password = Column(String)
+    password = Column(String, nullable=False)
 
 class UserUpdate(BaseModel):
-    name = Optional[str] = None
-    balance = Optional[float] = None
+    name: Optional[str] = None
+    balance: Optional[float] = None
+    password: Optional[str] = None

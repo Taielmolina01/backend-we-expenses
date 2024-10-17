@@ -9,16 +9,6 @@ class DebtBase(Base):
     debt_id = Column(Integer, primary_key=True, autoincrement=True)
     payment_id = Column(Integer, ForeignKey("payments.payment_id"))
     group_id = Column(Integer, ForeignKey("groups.group_id"))
-#    debtor_id = Column(Integer, ForeignKey("users.user_id"))
-#    creditor_id = Column(Integer, ForeignKey("users.user_id"))
-    debtor_mail = Column(String, ForeignKey("users.mail"))
-    creditor_mail = Column(String, ForeignKey("users.mail"))
+    debtor_email = Column(String, ForeignKey("users.email"))
+    creditor_email = Column(String, ForeignKey("users.email"))
     percentage = Column(Float)
-
-class DebtUpdate(BaseModel):
-    payment_id: Optional[int] = None
-    group_id: Optional[int] = None
-    debtor_id = Optional[int] = None
-    creditor_id = Optional[int] = None
-    percentage = Optional[float] = None
-

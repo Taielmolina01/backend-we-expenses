@@ -9,5 +9,4 @@ class GroupBase(Base):
     group_id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
 
-class GroupUpdate(BaseModel):
-    name = Optional[str] = None
+

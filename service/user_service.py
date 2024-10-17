@@ -1,6 +1,7 @@
 from repository.user_repository import UserRepository
 from sqlalchemy.orm import Session
-from tables.user_base import UserBase, UserUpdate
+from models.user import UserModel, UserUpdate
+from tables.user_base import UserBase
 from exceptions.users_exceptions import * 
 
 
@@ -11,29 +12,29 @@ class UserService:
         self.user_repository = UserRepository(db)
 
     def create_user(self,
-                    user: UserBase) -> UserBase:
-        registered_user = self.get_user(user.user_id)
-        if registered_user is not None:
-           raise UserAlreadyRegistered(user.user_id)
+                    user: UserModel) -> UserBase:
+        registered_user = self.get_user(user.email)
+        if registered_user:
+           raise UserAlreadyRegistered(user.email)
         if not user.name:
            raise UserWithoutName()
         # balance puede crearse con algo distinto a 0?
         return self.user_repository.create_user(user)
        
     def get_user(self, 
-                 mail_user: str) -> UserBase:
-        user = self.user_repository.get_user(mail_user)
+                 user_email: str) -> UserBase:
+        user = self.user_repository.get_user(user_email)
         if user is None:
-            raise UserNotRegistered(mail_user)
+            raise UserNotRegistered(user_email)
         return user
        
     def get_users(self) -> list[UserBase]:
        return self.user_repository.get_users()
 
     def update_user(self, 
-                    user_id: int, 
+                    user_email: str, 
                     user_update: UserUpdate) -> UserBase:
-        user = self.get_user(user_id)
+        user = self.get_user(user_email)
         if user_update.name is not None:
             user.name = user_update.name
         if user_update.balance is not None:
@@ -42,6 +43,6 @@ class UserService:
         
        
     def delete_user(self, 
-                    user: UserBase) -> bool:
-       user = self.get_user(user.user_id)
-       return self.user_repository.delete_user(user)
+                    user: UserModel) -> bool:
+       user = self.get_user(user.email)
+       return self.user_repository.delete_user(user.email)

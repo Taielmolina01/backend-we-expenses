@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
-from tables.group_base import GroupBase, GroupUpdate
+from models.group import GroupModel, GroupUpdate
+from tables.group_base import GroupBase
 from repository.group_repository import GroupRepository
-from exceptions.groups_exceptions import *
+from service.exceptions.groups_exceptions import *
 
 class GroupService:
 
@@ -10,7 +11,7 @@ class GroupService:
         self.group_repository = GroupRepository(db)
 
     def create_group(self,
-                     group: GroupBase) -> GroupBase:
+                     group: GroupModel) -> GroupBase:
         registered_group = self.get_group(group.group_id)
         if registered_group is not None:
             raise GroupAlreadyRegistered(group.group_id)

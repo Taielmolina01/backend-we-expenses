@@ -20,15 +20,22 @@ class PaymentBase(Base):
 
     payment_id = Column(Integer, primary_key=True, autoincrement=True)
     group_id = Column(Integer, ForeignKey("groups.group_id"))
-#    payer_id = Column(Integer, ForeignKey("users.user_id"))
-    payer_mail = Column(String, ForeignKey("users.mail"))
+    payer_email = Column(String, ForeignKey("users.email"))
     date = Column(Date)
     category = Column(Enum(Category))
     amount = Column(Float)
 
 class PaymentUpdate(BaseModel):
-    group_id = Optional[int] = None
-    payer_id = Optional[int] = None
-    date = Optional[date] = None
-    category = Optional[Enum(Category)] = None
-    amount = Optional[float] = None
+    group_id: Optional[int] = None
+    payer_id: Optional[int] = None
+    date: Optional[Date] = None
+    category: Optional[Enum(Category)] = None
+    amount: Optional[float] = None
+
+class PaymentResponse(BaseModel):
+    debt_id: int
+    group_id: int
+    payer_email: str
+    date: date
+    category: Category
+    amount: float

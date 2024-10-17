@@ -6,7 +6,7 @@ import sys
 if "pytest" in sys.modules:
     SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 else:
-    SQLALCHEMY_DATABASE_URL = #url del back deployado
+    SQLALCHEMY_DATABASE_URL = "" #url del back deployado
 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

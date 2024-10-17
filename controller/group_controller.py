@@ -2,11 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from service.group_service import *
 from database import get_database
 from sqlalchemy.orm import Session
+from models.group import GroupModel, GroupUpdate
 
 router = APIRouter()
 
 @router.post("/groups")
-async def create_group(group: GroupBase,
+async def create_group(group: GroupModel,
                        db: Session = Depends(get_database)):
     try:
         return GroupService(db).create_group(group)
@@ -35,7 +36,7 @@ async def update_group(group_id: int,
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
 
 @router.delete("/groups/{group_id}")
-async def delete_group(group: GroupBase,
+async def delete_group(group: GroupModel,
                        db: Session = Depends(get_database)):
     try:
         return GroupService(db).delete_group(group)

@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from tables.debt_base import DebtBase, DebtUpdate
+from tables.debt_base import DebtBase
+from models.debt import DebtModel, DebtUpdate
 from repository.debt_repository import DebtRepository
 from service.exceptions.debts_exceptions import *
 
@@ -10,7 +11,7 @@ class DebtService:
         self.debt_repository = DebtRepository(db)
 
     def create_debt(self,
-                    debt: DebtBase) -> DebtBase:
+                    debt: DebtModel) -> DebtBase:
         registered_debt = self.get_debt(debt.debt_id)
         if registered_debt:
             raise DebtAlreadyRegistered(debt.debt_id)
@@ -19,7 +20,28 @@ class DebtService:
     def get_debt(self,
                  debt_id: int) -> DebtBase:
         return self.debt_repository.get_debt(debt_id)
-        
+    
+    def get_debts_by_user_and_group(self, 
+                                    user_email: str, 
+                                    group_id: int) -> list[DebtBase]:
+        return self.debt_repository.get_debts_by_user_and_group()
+    
+    def get_debts_by_debtor(self, 
+                            user_email: str) -> list[DebtBase]:
+        return self.debt_repository.get_debts_by_debtor()
+    
+    def get_debts_by_creditor(self, 
+                              user_email: str) -> list[DebtBase]:
+        return self.debt_repository.get_debts_by_creditor()
+
+    def get_debts_by_group(self, 
+                           group_id: int) -> list[DebtBase]:
+        return self.debt_repository.get_debts_by_group()
+    
+    def get_debts_by_payment_id(self, 
+                                payment_id: int) -> list[DebtBase]:
+        return self.debt_repository.get_debts_by_payment_id()
+            
     def update_debt(self,
                     debt_id: int,
                     debt_update: DebtUpdate) -> DebtBase:
@@ -39,7 +61,7 @@ class DebtService:
         return self.debt_repository.update_debt(debt)
 
     def delete_debt(self,
-                    debt: DebtBase) -> bool:
+                    debt: DebtModel) -> bool:
         registered_debt = self.get_debt(debt.debt_id)
         if not registered_debt:
             raise DebtNotRegistered(debt.debt_id)

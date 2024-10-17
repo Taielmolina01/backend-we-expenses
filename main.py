@@ -1,8 +1,10 @@
 from fastapi import FastAPI
-from core.config import settings 
 from controller.group_controller import router as group_controller
 from controller.user_controller import router as user_controller
-from controller.payment_controller import router as transaction_controller
+from controller.payment_controller import router as payment_controller
+from controller.debt_controller import router as debt_controller
+from controller.user_invitation_controller import router as user_invitation_controller
+from controller.users_by_groups_controller import router as users_by_groups_controller
 from database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -28,7 +30,10 @@ def home():
 
 app.include_router(group_controller)
 app.include_router(user_controller)
-app.include_router(transaction_controller)
+app.include_router(payment_controller)
+app.include_router(debt_controller)
+app.include_router(user_invitation_controller)
+app.include_router(users_by_groups_controller)
 
-app.title = "WeExpenses"
+app.title = "OurExpenses"
 app.version = "1.0"
