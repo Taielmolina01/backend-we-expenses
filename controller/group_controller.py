@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from service.group_service import *
-from database import get_database
+from databases import get_database
 from sqlalchemy.orm import Session
 from models.group import GroupModel, GroupUpdate
 

@@ -1,4 +1,4 @@
-from database import Base
+from databases import Base
 import enum
 from sqlalchemy import Column, Integer, Float, Date, Enum, ForeignKey, String
 

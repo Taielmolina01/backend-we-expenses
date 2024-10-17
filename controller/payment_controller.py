@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from models.payment import PaymentModel, PaymentUpdate
-from database import get_database
+from databases import get_database
 from sqlalchemy.orm import Session
 from service.payment_service import PaymentService
 
