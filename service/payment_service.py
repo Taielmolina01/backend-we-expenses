@@ -64,7 +64,7 @@ class PaymentService:
         if len(users) > len(percentages):
             raise PaymentWithLessDistributionsThanGroupUsers()
         for u in users:
-            self.debt_service.create_debt(DebtModel(payment_id=new_payment.payment_id, 
+            self.debt_service.update_debt(DebtUpdate(payment_id=new_payment.payment_id, 
                                                     group_id=new_payment.group_id, 
                                                     debtor_email=u.user_email, 
                                                     creditor_email=new_payment.payer_email, 

@@ -48,16 +48,18 @@ class DebtService:
         debt = self.get_debt(debt_id)
         if not debt:
             raise DebtNotRegistered(debt.debt_id)
-        if debt_update.creditor_id is not None:
+        if debt_update.creditor_id:
             debt.creditor_id = debt_update.creditor_id
-        if debt_update.debtor_id is not None:
+        if debt_update.debtor_id:
             debt.debtor_id = debt_update.debtor_id
-        if debt_update.group_id is not None:
+        if debt_update.group_id:
             debt.group_id = debt_update.group_id
-        if debt_update.payment_id is not None:
+        if debt_update.payment_id:
             debt.payment_id = debt_update.payment_id
-        if debt_update.percentage is not None:
+        if debt_update.percentage:
             debt.percentage = debt_update.percentage
+        if debt_update.state:
+            debt.state = debt_update.state
         return self.debt_repository.update_debt(debt)
 
     def delete_debt(self,

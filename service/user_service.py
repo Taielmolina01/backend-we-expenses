@@ -22,7 +22,7 @@ class UserService:
     def get_user(self, 
                  user_email: str) -> UserBase:
         user = self.user_repository.get_user(user_email)
-        if user is None:
+        if not user:
             raise UserNotRegistered(user_email)
         return user
        
@@ -33,9 +33,9 @@ class UserService:
                     user_email: str, 
                     user_update: UserUpdate) -> UserBase:
         user = self.get_user(user_email)
-        if user_update.name is not None:
+        if user_update.name:
             user.name = user_update.name
-        if user_update.balance is not None:
+        if user_update.balance:
             user.balance = user_update.balance
         return self.user_repository.update_user(user)
         
