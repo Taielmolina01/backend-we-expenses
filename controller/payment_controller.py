@@ -8,8 +8,9 @@ router = APIRouter()
 
 @router.post("/payments")
 async def create_payment(payment: PaymentModel,
+                         percentages: list[int],
                        db: Session = Depends(get_database)):
-        return PaymentService(db).create_payment(payment)
+        return PaymentService(db).create_payment(payment, percentages)
         
 @router.get("/payments/{payment_id}")
 async def get_payment(payment_id: int,
@@ -22,7 +23,7 @@ async def get_payments_by_group(group_id: int,
         return PaymentService(db).get_payments_by_group(group_id)
 
 @router.get("/users/{user_email}/payments")
-async def get_payments_by_user(user_email: int,
+async def get_payments_by_user(user_email: str,
                               db: Session = Depends(get_database)):
         return PaymentService(db).get_payments_by_user(user_email)
     
@@ -35,8 +36,9 @@ async def get_payments_by_user_and_group(user_email: str,
 @router.put("/payments/{payment_id}")
 async def update_payment(payment_id: int,
                        payment_update: PaymentUpdate,
+                       percentages: list[int],
                        db: Session = Depends(get_database)):
-        return PaymentService(db).update_payment(payment_id, payment_update)
+        return PaymentService(db).update_payment(payment_id, payment_update, percentages)
         
 @router.delete("/payments")
 async def delete_payment(payment: PaymentModel,

@@ -8,15 +8,15 @@ from tables.user_base import UserBase
 
 client = TestClient(app)
 
-@scenario("../features/agregar_gasto.feature", "Agregar gastos sin ser parte de un evento/grupo")
+@scenario("../features/add_payment.feature", "Agregar gastos sin ser parte de un evento/grupo")
 def test_add_expense_not_part_of_event():
     pass
 
-@scenario("../features/agregar_gasto.feature", "Agregar gastos siendo el único participante")
+@scenario("../features/add_payment.feature", "Agregar gastos siendo el único participante")
 def test_add_expense_single_participant():
     pass
 
-@scenario("../features/agregar_gasto.feature", "Agregar gastos siendo parte de un evento/grupo con más participantes")
+@scenario("../features/add_payment.feature", "Agregar gastos siendo parte de un evento/grupo con más participantes")
 def test_add_expense_multiple_participants():
     pass
 

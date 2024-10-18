@@ -24,18 +24,18 @@ class UserByGroupService:
     
     def __is_user_in_group(self,
                          group_id: int,
-                         user_id: int) -> bool:
+                         user_email: str) -> bool:
         
         users = self.get_users_by_group(group_id)
-        return user_id in users # dudo que asi esté bien pero la idea es lo q cuenta
+        return user_email in users # dudo que asi esté bien pero la idea es lo q cuenta
 
     def validates_registered_group_and_user(self,
                                             user_in_group: UserByGroupModel) -> None:
         group = self.user_service.get_group(user_in_group.group_id)
         user_registered = self.user_service.get_user(user_in_group.user_id)
-        if group is None:
+        if not group:
             raise GroupNotRegistered(user_in_group.group_id)
-        if user_registered is None:
+        if not user_registered:
             raise UserNotRegistered(user_in_group.user_id)
 
     def get_users_by_group(self,

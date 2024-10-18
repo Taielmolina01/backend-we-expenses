@@ -3,11 +3,11 @@ from main import app  # Asegúrate de importar tu aplicación FastAPI
 from service.user_service import UserService
 from models.user import UserModel
 
-@scenario("../features/creacion_de_eventos.feature", "Registro con un email no existente")
+@scenario("../features/create_event.feature", "Invitar miembros registrados a un evento")
 def test_invite_unregisted_members():
     pass
 
-@scenario("../features/creacion_de_eventos.feature", "Registro con un email existente")
+@scenario("../features/create_event.feature", "Invitar miembros no registrados a un evento")
 def test_invite_registed_members():
     pass
 

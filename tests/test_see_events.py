@@ -3,11 +3,11 @@ from main import app  # Asegúrate de importar tu aplicación FastAPI
 from service.user_service import UserService
 from models.user import UserModel
 
-@scenario("../features/ver_eventos.feature", "Ver eventos de los que soy parte")
+@scenario("../features/see_events.feature", "Ver eventos de los que soy parte")
 def test_invite_unregisted_members():
     pass
 
-@scenario("../features/ver_eventos.feature", "No tengo eventos")
+@scenario("../features/see_events.feature", "No tengo eventos")
 def test_invite_unregisted_members():
     pass
 

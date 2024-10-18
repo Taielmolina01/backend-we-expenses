@@ -3,19 +3,19 @@ from main import app  # Asegúrate de importar tu aplicación FastAPI
 from service.user_service import UserService
 from models.user import UserModel
 
-@scenario("../features/creacion_de_grupos.feature", "Crear un grupo con un ID existente")
+@scenario("../features/create_group.feature", "Crear un grupo con un ID existente")
 def test_invite_unregisted_members():
     pass
 
-@scenario("../features/creacion_de_grupos.feature", "Crear un grupo con un ID no existente")
+@scenario("../features/create_group.feature", "Crear un grupo con un ID no existente")
 def test_invite_registed_members():
     pass
 
-@scenario("../features/creacion_de_grupos.feature", "Invitar amigos no registrados")
+@scenario("../features/create_group.feature", "Invitar amigos no registrados")
 def test_invite_registed_members():
     pass
 
-@scenario("../features/creacion_de_grupos.feature", "Invitar amigos registrados")
+@scenario("../features/create_group.feature", "Invitar amigos registrados")
 def test_invite_registed_members():
     pass
 

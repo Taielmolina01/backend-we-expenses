@@ -3,11 +3,11 @@ from main import app  # Asegúrate de importar tu aplicación FastAPI
 from service.user_service import UserService
 from models.user import UserModel
 
-@scenario("../features/ver_gastos_en_grupo.feature", "Ver gastos de un grupo")
+@scenario("../features/see_payments.feature", "Ver gastos de un grupo")
 def test_invite_unregisted_members():
     pass
 
-@scenario("../features/ver_gastos_en_grupo.feature", "Ver gastos de un grupo nuevo")
+@scenario("../features/see_payments.feature", "Ver gastos de un grupo nuevo")
 def test_invite_unregisted_members():
     pass
 

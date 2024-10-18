@@ -3,15 +3,15 @@ from main import app  # Asegúrate de importar tu aplicación FastAPI
 from service.user_service import UserService
 from models.user import UserModel
 
-@scenario("../features/liquidar_deudas.feature", "Liquidar deudas sin ser parte de un evento/grupo")
+@scenario("../features/pay_debts.feature", "Liquidar deudas sin ser parte de un evento/grupo")
 def test_invite_unregisted_members():
     pass
 
-@scenario("../features/liquidar_deudas.feature", "Liquidar deudas siendo el único participante")
+@scenario("../features/pay_debts.feature", "Liquidar deudas siendo el único participante")
 def test_invite_unregisted_members():
     pass
 
-@scenario("../features/liquidar_deudas.feature", "Liquidar deudas siendo parte de un evento/grupo con más participantes")
+@scenario("../features/pay_debts.feature", "Liquidar deudas siendo parte de un evento/grupo con más participantes")
 def test_invite_unregisted_members():
     pass
 

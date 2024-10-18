@@ -3,11 +3,11 @@ from main import app  # Asegúrate de importar tu aplicación FastAPI
 from service.user_service import UserService
 from models.user import UserModel
 
-@scenario("../features/filtrar_gastos_por_categoria.feature", "Filtrar gastos por una categoría específica")
+@scenario("../features/filter_payments_by_category.feature", "Filtrar gastos por una categoría específica")
 def test_invite_unregisted_members():
     pass
 
-@scenario("../features/filtrar_gastos_por_categoria.feature", "Filtrar gastos por categoría sin registros")
+@scenario("../features/filter_payments_by_category.feature", "Filtrar gastos por categoría sin registros")
 def test_invite_unregisted_members():
     pass
 

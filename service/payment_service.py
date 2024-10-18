@@ -3,17 +3,34 @@ from repository.payment_repository import PaymentRepository
 from models.payment import PaymentModel, PaymentUpdate
 from tables.payment_base import PaymentBase
 from service.exceptions.payments_exceptions import *
+from service.users_by_groups_service import UserByGroupService
+from service.debt_service import DebtService
+from models.debt import DebtModel, DebtUpdate
 
 class PaymentService:
 
     def __init__(self,
                  db: Session):
         self.payment_repository = PaymentRepository(db)
+        self.user_by_group = UserByGroupService(db)
+        self.debt_service = DebtService(db)
 
     def create_payment(self,
-                       payment: PaymentModel) -> PaymentBase:
-        # agregar la logica de la deuda a cada usuario del grupo
-        return self.payment_repository.create_payment(payment)
+                       payment: PaymentModel,
+                       percentages: dict[str, float]) -> PaymentBase:
+        payment = self.payment_repository.create_payment(payment)
+        users = self.user_by_group.get_users_by_group(payment.group_id)
+        if len(percentages) > len(users):
+            raise PaymentWithMoreDistributionsThanGroupUsers()
+        if len(users) > len(percentages):
+            raise PaymentWithLessDistributionsThanGroupUsers()
+        for u in users:
+            self.debt_service.create_debt(DebtModel(payment_id=payment.payment_id, 
+                                                    group_id=payment.group_id, 
+                                                    debtor_email=u.user_email, 
+                                                    creditor_email=payment.payer_email, 
+                                                    percentage=percentages[u.user_email]))
+        return payment
         
     def get_payment(self,
                     payment_id: int) -> PaymentBase:
@@ -34,12 +51,33 @@ class PaymentService:
     
     def update_payment(self,
                        payment_id: int,
-                       payment_update: PaymentUpdate) -> PaymentBase:
+                       payment_update: PaymentUpdate,
+                       percentages: list[int]) -> PaymentBase:
         # agregar la logica de la deuda a cada usuario del grupo
-        return self.payment_repository.update_payment(payment_id, payment_update)
+        registered_payment = self.get_payment(payment_id)
+        if not registered_payment:
+            raise PaymentNotRegistered()
+        new_payment = self.payment_repository.update_payment(payment_id, payment_update)
+        users = self.user_by_group.get_users_by_group(new_payment.group_id)
+        if len(percentages) > len(users):
+            raise PaymentWithMoreDistributionsThanGroupUsers()
+        if len(users) > len(percentages):
+            raise PaymentWithLessDistributionsThanGroupUsers()
+        for u in users:
+            self.debt_service.create_debt(DebtModel(payment_id=new_payment.payment_id, 
+                                                    group_id=new_payment.group_id, 
+                                                    debtor_email=u.user_email, 
+                                                    creditor_email=new_payment.payer_email, 
+                                                    percentage=percentages[u.user_email]))
+        return 
         
 
     def delete_payment(self,
                        payment: PaymentModel) -> bool:
-        #agregar la logica de la deuda a cada usuario del grupo
+        registered_payment = self.get_payment(payment.payment_id)
+        if not registered_payment:
+            raise PaymentNotRegistered()
+        debts = self.debt_service.get_debts_by_payment_id(payment.payment_id)
+        for d in debts:
+            self.debt_service.delete_debt(d)
         return self.payment_repository.delete_payment(payment)

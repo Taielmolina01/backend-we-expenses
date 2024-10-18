@@ -10,11 +10,11 @@ from tables.user_base import UserBase
 
 client = TestClient(app)
 
-@scenario("../features/cambiar_nombre_de_grupo.feature", "Cambiar nombre siendo administrador")
+@scenario("../features/change_group_name.feature", "Cambiar nombre siendo administrador")
 def test_change_name_as_admin():
   pass
 
-@scenario("../features/cambiar_nombre_de_grupo.feature", "Cambiar nombre sin ser administrador")
+@scenario("../features/change_group_name.feature", "Cambiar nombre sin ser administrador")
 def test_change_name_not_as_admin():
   pass
 

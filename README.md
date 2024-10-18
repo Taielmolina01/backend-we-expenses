@@ -2,6 +2,8 @@
 
 ## TO DO
 
+- [ ] Deberia tener un estado la deuda? creeria que si
+
 - [ ] Payment 
     - [ ] Controller
         - [ ] Manejar errores

@@ -10,11 +10,11 @@ from tables.user_base import UserBase
 
 client = TestClient(app)
 
-@scenario("../features/borrar_grupo.feature", "Borrar grupo siendo administrador")
+@scenario("../features/delete_group.feature", "Borrar grupo siendo administrador")
 def test_delete_group_as_admin():
   pass
 
-@scenario("../features/borrar_grupo.feature", "Borrar grupo sin ser administrador")
+@scenario("../features/delete_group.feature", "Borrar grupo sin ser administrador")
 def test_delete_group_not_as_admin():
   pass
 
