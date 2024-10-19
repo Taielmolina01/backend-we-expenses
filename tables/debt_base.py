@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, Integer, Float, ForeignKey, String
+from sqlalchemy import Column, Integer, Float, ForeignKey, String, Enum
 from models.debt import DebtState
 
 class DebtBase(Base):
@@ -11,4 +11,4 @@ class DebtBase(Base):
     debtor_email = Column(String, ForeignKey("users.email"))
     creditor_email = Column(String, ForeignKey("users.email"))
     percentage = Column(Float)    
-    state = Column(DebtState)
+    state = Column(Enum(DebtState))

@@ -20,7 +20,11 @@ https://backend-our-expenses-44wnu0oq4-taielmolina01s-projects.vercel.app
 
 ## RUN
 
-Tenes que tener el .venv activado recien ahi instalas dependencias con
+Tenes que tener el .venv activado  con
+
+`source .venv/bin/activate` 
+
+recien ahi instalas dependencias con
 
 `pip install -r requirements.txt`
 
