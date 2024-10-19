@@ -8,7 +8,7 @@ class UserRepository:
         self.db = db
 
     def create_user(self, 
-                    user: UserModel) -> UserBase:
+                    user: UserBase) -> UserBase:
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)
@@ -22,13 +22,13 @@ class UserRepository:
         return self.db.query(UserBase).filter(UserBase.email == email).first()
     
     def update_user(self, 
-                    user: UserUpdate) -> UserBase:
+                    user: UserBase) -> UserBase:
         self.db.commit()
         self.db.refresh(user)
         return user
 
     def delete_user(self, 
-                    user: UserModel) -> bool:
+                    user: UserBase) -> bool:
         self.db.delete(user)
         self.db.commit()
         return True

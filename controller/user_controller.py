@@ -5,7 +5,7 @@ from models.user import UserModel, UserUpdate
 from models.login import *
 from service.user_service import UserService
 from service.exceptions.users_exceptions import *
-from utils.login_utils import *
+from utils.login_utils import get_password_hash, verify_password, SECRET_KEY, ALGORITHM, OAUTH2SCHEME, ACCESS_TOKEN_EXPIRE_MINUTES
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordRequestForm
@@ -17,10 +17,12 @@ router = APIRouter()
 async def create_user(user: UserModel, 
                       db: Session = Depends(get_database)):
     try:
+        hashed_password = get_password_hash(user.password)
+        print(hashed_password)
         new_user = UserModel(email=user.email,
                             name=user.name,
                             balance=user.balance,
-                            password=get_password_hash(user.password))
+                            password=hashed_password)
         return UserService(db).create_user(new_user)
     except UserAlreadyRegistered as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
@@ -84,7 +86,7 @@ async def login(user: UserLoginModel,
     except UserNotRegistered as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)        
     
-async def get_current_user(token: str = Depends(oauth_2_Scheme)):
+async def get_current_user(token: str = Depends(OAUTH2SCHEME)):
     exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="No se pueden validar las credenciales", headers="")
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])

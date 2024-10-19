@@ -4,7 +4,7 @@ from typing import Optional
 class UserModel(BaseModel):
     email: str
     name: str
-    balance: float
+    balance: Optional[float] = 0
     password: str
 
     class Config:
