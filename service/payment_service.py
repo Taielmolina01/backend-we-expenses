@@ -7,6 +7,15 @@ from service.users_by_groups_service import UserByGroupService
 from service.debt_service import DebtService
 from models.debt import DebtModel, DebtUpdate
 
+def create_payment_from_model(payment_model: PaymentModel) -> PaymentBase:
+    return PaymentBase(
+        group_id = payment_model.group_id,
+        payer_email = payment_model.payer_email,
+        date = payment_model.date,
+        category = payment_model.category,
+        amount = payment_model.amount
+    )
+
 class PaymentService:
 
     def __init__(self,
@@ -18,7 +27,6 @@ class PaymentService:
     def create_payment(self,
                        payment: PaymentModel,
                        percentages: dict[str, float]) -> PaymentBase:
-        payment = self.payment_repository.create_payment(payment)
         users = self.user_by_group.get_users_by_group(payment.group_id)
         if len(percentages) > len(users):
             raise PaymentWithMoreDistributionsThanGroupUsers()
@@ -30,7 +38,8 @@ class PaymentService:
                                                     debtor_email=u.user_email, 
                                                     creditor_email=payment.payer_email, 
                                                     percentage=percentages[u.user_email]))
-        return payment
+        return self.payment_repository.create_payment(create_payment_from_model(payment))
+
         
     def get_payment(self,
                     payment_id: int) -> PaymentBase:
@@ -57,7 +66,7 @@ class PaymentService:
         registered_payment = self.get_payment(payment_id)
         if not registered_payment:
             raise PaymentNotRegistered()
-        new_payment = self.payment_repository.update_payment(payment_id, payment_update)
+        new_payment = create_payment_from_model(payment_update)
         users = self.user_by_group.get_users_by_group(new_payment.group_id)
         if len(percentages) > len(users):
             raise PaymentWithMoreDistributionsThanGroupUsers()
@@ -69,7 +78,8 @@ class PaymentService:
                                                     debtor_email=u.user_email, 
                                                     creditor_email=new_payment.payer_email, 
                                                     percentage=percentages[u.user_email]))
-        return 
+        return self.payment_repository.update_payment(new_payment)
+
         
 
     def delete_payment(self,

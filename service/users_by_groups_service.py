@@ -8,6 +8,12 @@ from service.exceptions.users_by_groups_exceptions import UserNotRegisteredInGro
 from tables.users_by_group_base import UserInGroupBase
 from models.user_by_group import UserByGroupModel
 
+def create_user_by_group_from_model(user_by_group: UserByGroupModel) -> UserInGroupBase:
+    return UserInGroupBase(
+        group_id = user_by_group.group_id,
+        user_email = user_by_group.user_email
+    )
+
 class UserByGroupService:
 
     def __init__(self,
@@ -18,9 +24,9 @@ class UserByGroupService:
 
     def add_user_in_group(self,
                           user_in_group: UserByGroupModel) -> UserInGroupBase:
-        self.validates_registered_group_and_user()
+        self.validates_registered_group_and_user(user_in_group)
         if not self.__is_user_in_group(user_in_group.group_id, user_in_group.user_id):
-            return self.users_by_groups_repository.add_user_in_group(user_in_group)
+            return self.users_by_groups_repository.add_user_in_group(create_user_by_group_from_model(user_in_group))
     
     def __is_user_in_group(self,
                          group_id: int,

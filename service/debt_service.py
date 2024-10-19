@@ -4,6 +4,16 @@ from models.debt import DebtModel, DebtUpdate
 from repository.debt_repository import DebtRepository
 from service.exceptions.debts_exceptions import *
 
+def create_debt_from_model(debt_model: DebtModel) -> DebtBase:
+    return DebtBase(
+        payment_id = debt_model.payment_id,
+        group_id = debt_model.group_id,
+        debtor_email = debt_model.debtor_email,
+        creditor_email = debt_model.creditor_email,
+        percentage = debt_model.percentage,
+        state = debt_model.state
+    )
+
 class DebtService:
 
     def __init__(self,
@@ -15,7 +25,7 @@ class DebtService:
         registered_debt = self.get_debt(debt.debt_id)
         if registered_debt:
             raise DebtAlreadyRegistered(debt.debt_id)
-        return self.debt_repository.create_debt(debt)
+        return self.debt_repository.create_debt(create_debt_from_model(debt))
         
     def get_debt(self,
                  debt_id: int) -> DebtBase:
@@ -60,7 +70,7 @@ class DebtService:
             debt.percentage = debt_update.percentage
         if debt_update.state:
             debt.state = debt_update.state
-        return self.debt_repository.update_debt(debt)
+        return self.debt_repository.update_debt(create_debt_from_model(debt))
 
     def delete_debt(self,
                     debt: DebtModel) -> bool:

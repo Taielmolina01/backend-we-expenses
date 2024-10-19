@@ -12,7 +12,7 @@ class UserInvitationModel(BaseModel):
     class Config:
         orm_mode = True 
 
-class UserInvitationUPdate(BaseModel):
+class UserInvitationUpdate(BaseModel):
     invitator_email: Optional[str] = None
     guest_email: Optional[str] = None
     id_group: Optional[int] = None
