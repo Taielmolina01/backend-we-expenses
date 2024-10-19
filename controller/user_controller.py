@@ -4,8 +4,10 @@ from sqlalchemy.orm import Session
 from models.user import UserModel, UserUpdate
 from service.user_service import UserService
 from service.exceptions.users_exceptions import *
+from controller.login_controller import get_password_hash
 
 router = APIRouter()
+
 
 @router.post("/users")
 async def create_user(user: UserModel, 
@@ -14,7 +16,7 @@ async def create_user(user: UserModel,
         new_user = UserModel(email=user.email,
                             name=user.name,
                             balance=user.balance,
-                            password=user.password)
+                            password=get_password_hash(user.password))
         return UserService(db).create_user(new_user)
     except UserAlreadyRegistered as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
