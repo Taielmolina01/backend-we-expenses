@@ -12,10 +12,5 @@ def verify_password(plain_password, hashed_password):
     return PASSWORD_CONTEXT.verify(plain_password, hashed_password)
 
 def get_password_hash(plain_password):
-    print(plain_password)
-    if plain_password is None:
-        print("hi my plainpassword is none")
-        raise ValueError("Plain password must not be None")
-    
     return PASSWORD_CONTEXT.hash(plain_password)
 
