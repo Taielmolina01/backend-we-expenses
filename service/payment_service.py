@@ -43,7 +43,6 @@ class PaymentService:
         for u in users:
             user = self.user_service.get_user(u.user_email)
             if user.email == payment.payer_email:
-                print(f"HOLAAAA: balance: {user.balance}, amount: {payment.amount}, percentage: {percentages[user.email]}")
                 self.user_service.update_user(user.email, UserUpdate(
                 name=user.name,
                 balance=user.balance - payment.amount + percentages[user.email] * payment.amount
