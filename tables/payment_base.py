@@ -1,16 +1,7 @@
 from database import Base
 import enum
 from sqlalchemy import Column, Integer, Float, Date, Enum, ForeignKey, String
-
-class Category(enum.Enum):
-    FOOD = 0
-    UTILITIES = 1
-    CLOTHING = 2
-    HEALTCARE = 3
-    PERSONAL = 4
-    EDUCATION = 5
-    GIFTS = 6
-    ENTERTAINMENT = 7
+from models.payment import Category
 
 class PaymentBase(Base):
     __tablename__ = "payments"

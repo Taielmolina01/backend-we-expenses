@@ -25,7 +25,7 @@ class UserByGroupService:
     def add_user_in_group(self,
                           user_in_group: UserByGroupModel) -> UserInGroupBase:
         self.validates_registered_group_and_user(user_in_group)
-        if not self.__is_user_in_group(user_in_group.group_id, user_in_group.user_id):
+        if not self.__is_user_in_group(user_in_group.group_id, user_in_group.user_email):
             return self.users_by_groups_repository.add_user_in_group(create_user_by_group_from_model(user_in_group))
     
     def __is_user_in_group(self,
@@ -37,12 +37,12 @@ class UserByGroupService:
 
     def validates_registered_group_and_user(self,
                                             user_in_group: UserByGroupModel) -> None:
-        group = self.user_service.get_group(user_in_group.group_id)
-        user_registered = self.user_service.get_user(user_in_group.user_id)
+        group = self.group_service.get_group(user_in_group.group_id)
+        user_registered = self.user_service.get_user(user_in_group.user_email)
         if not group:
             raise GroupNotRegistered(user_in_group.group_id)
         if not user_registered:
-            raise UserNotRegistered(user_in_group.user_id)
+            raise UserNotRegistered(user_in_group.user_email)
 
     def get_users_by_group(self,
                         group_id: int) -> list[UserInGroupBase]:
@@ -61,7 +61,7 @@ class UserByGroupService:
     def delete_user_in_group(self,
                              user_in_group: UserByGroupModel) -> UserInGroupBase:
         self.validates_registered_group_and_user(user_in_group)
-        if not self.__is_user_in_group(user_in_group.group_id, user_in_group.user_id):
-            raise UserNotRegisteredInGroup(user_in_group.user_id, user_in_group.group_id)    
+        if not self.__is_user_in_group(user_in_group.group_id, user_in_group.user_email):
+            raise UserNotRegisteredInGroup(user_in_group.user_email, user_in_group.group_id)    
         return self.users_by_groups_repository.add_user_in_group(user_in_group)
         

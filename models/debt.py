@@ -12,7 +12,7 @@ class DebtModel(BaseModel):
     debtor_email: str
     creditor_email: str
     percentage: float
-    debt_state: Optional[DebtState] = 0
+    state: Optional[DebtState] = DebtState.UNPAID
 
     class Config:
         orm_mode = True 
@@ -23,7 +23,7 @@ class DebtUpdate(BaseModel):
     debtor_id: Optional[int] = None
     creditor_id: Optional[int] = None
     percentage: Optional[float] = None
-    debt_state: Optional[DebtState] = None
+    state: Optional[DebtState] = None
 
     class Config:
         orm_mode = True 

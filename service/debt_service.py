@@ -22,9 +22,6 @@ class DebtService:
 
     def create_debt(self,
                     debt: DebtModel) -> DebtBase:
-        registered_debt = self.get_debt(debt.debt_id)
-        if registered_debt:
-            raise DebtAlreadyRegistered(debt.debt_id)
         return self.debt_repository.create_debt(create_debt_from_model(debt))
         
     def get_debt(self,

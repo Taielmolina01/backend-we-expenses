@@ -32,26 +32,30 @@ class PaymentService:
                        payment: PaymentModel,
                        percentages: dict[str, float]) -> PaymentBase:
         users = self.user_by_group.get_users_by_group(payment.group_id)
+
         if len(percentages) > len(users):
             raise PaymentWithMoreDistributionsThanGroupUsers()
         if len(users) > len(percentages):
             raise PaymentWithLessDistributionsThanGroupUsers()
+    
+        payment_response = self.payment_repository.create_payment(create_payment_from_model(payment))
+
         for u in users:
-            if u.user_email == payment.payer_email:
-                self.user_service.update_user(user.user_email, UserUpdate(
+            user = self.user_service.get_user(u.user_email)
+            if user.email == payment.payer_email:
+                self.user_service.update_user(user.email, UserUpdate(
                 name=user.name,
-                balance=user.balance - payment.amount + percentages[user.user_email]
+                balance=user.balance - payment.amount + percentages[user.email]
                 ))
             else:
-                user = self.user_service.get_user(u.user_email)
-                self.debt_service.create_debt(DebtModel(payment_id=payment.payment_id, 
+                self.debt_service.create_debt(DebtModel(payment_id=payment_response.payment_id, 
                                                         group_id=payment.group_id, 
-                                                        debtor_email=user.user_email, 
+                                                        debtor_email=user.email, 
                                                         creditor_email=payment.payer_email, 
-                                                        percentage=percentages[user.user_email]))
+                                                        percentage=percentages[user.email]))
                 self.__update_user_balance(user, payment, percentages)
         
-        return self.payment_repository.create_payment(create_payment_from_model(payment))
+        return payment_response
 
         
     def get_payment(self,
@@ -137,7 +141,7 @@ class PaymentService:
 
 
     def __update_user_balance(self, user: UserBase, payment: PaymentModel, percentages: list[int]):
-        self.user_service.update_user(user.user_email, UserUpdate(
+        self.user_service.update_user(user.email, UserUpdate(
                 name=user.name,
                 balance=user.balance + percentages[user.email] * payment.amount
         ))
