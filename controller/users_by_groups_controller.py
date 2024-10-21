@@ -6,12 +6,15 @@ from service.exceptions.groups_exceptions import GroupNotRegistered
 from service.exceptions.users_exceptions import UserNotRegistered
 from service.exceptions.users_by_groups_exceptions import UserNotRegisteredInGroup
 from models.user_by_group import UserByGroupModel
+from controller.user_controller import get_current_active_user
+from models.user import UserModel
 
 router = APIRouter()
 
 @router.post("/groups/{group_id}/users/{user_email}")
 async def add_user_in_group(user_in_group: UserByGroupModel,
-                            db: Session = Depends(get_database)):
+                            db: Session = Depends(get_database),
+                       current_user: UserModel = Depends(get_current_active_user)):
         try:
             return UserByGroupService(db).add_user_in_group(user_in_group)
         except GroupNotRegistered as e:
@@ -21,7 +24,8 @@ async def add_user_in_group(user_in_group: UserByGroupModel,
         
 @router.get("/groups/{group_id}/users")
 async def get_users_by_group(group_id: int,
-                             db: Session = Depends(get_database)):
+                             db: Session = Depends(get_database),
+                       current_user: UserModel = Depends(get_current_active_user)):
         try:
             return UserByGroupService(db).get_users_by_group(group_id)
         except GroupNotRegistered as e:
@@ -29,7 +33,8 @@ async def get_users_by_group(group_id: int,
         
 @router.get("/users/{user_email}/groups")
 async def get_groups_by_user(user_email: str, 
-                             db: Session =  Depends(get_database)):
+                             db: Session =  Depends(get_database),
+                       current_user: UserModel = Depends(get_current_active_user)):
         try:
             return UserByGroupService(db).get_groups_by_user(user_email)
         except UserNotRegistered as e:
@@ -37,7 +42,8 @@ async def get_groups_by_user(user_email: str,
 
 @router.delete("/groups/{group_id}/users/{user_email}")
 async def delete_user_in_group(user_in_group: UserByGroupModel,
-                            db: Session = Depends(get_database)):
+                            db: Session = Depends(get_database),
+                       current_user: UserModel = Depends(get_current_active_user)):
         try:
             return UserByGroupService(db).delete_user_in_group(user_in_group)
         except GroupNotRegistered as e:
