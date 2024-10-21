@@ -31,10 +31,10 @@ def create_user_in_group_model(user: UserBase, group: GroupBase):
             group_id=group.group_id,
             user_email=user.email)
 
-def create_payment_model(user: UserBase, group: GroupBase, category: Category):
+def create_payment_model(payer: UserBase, group: GroupBase, category: Category):
     return PaymentModel(
         group_id=group.group_id,
-        payer_email=user.email,
+        payer_email=payer.email,
         date=date(2024, 10, 21),
         category=category,
         amount=200
