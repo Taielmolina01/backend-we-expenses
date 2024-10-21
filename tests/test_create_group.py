@@ -1,14 +1,12 @@
 from pytest_bdd import scenario, given, when, then
 from main import app 
-from service.user_service import UserService
-from models.user import UserModel
 from service.group_service import GroupService
 from models.group import GroupModel
 from service.exceptions.groups_exceptions import *
 import pytest
-from service.user_invitation_service import UserInvitationModel, UserInvitationService
+from service.user_invitation_service import UserInvitationModel
 from datetime import date
-from service.exceptions.users_exceptions import UserNotRegistered
+from util_functions import *
 
 @scenario("../features/create_group.feature", "Crear un grupo sin nombre")
 def test_create_group_without_name():
@@ -25,26 +23,6 @@ def user_logged(session):
 @given('que no tengo una sesión iniciada')
 def user_not_logged(session):
     pass
-
-def create_group_model_without_name():
-    return GroupModel(name="")
-
-def create_group_model():
-    return GroupModel(name="MyGroup")
-
-def create_user_model():
-    return UserModel(
-        email="test@example.com",
-        name="MyUser1",
-        password="securepassword1"
-    )
-
-def create_user_model_2():
-    return UserModel(
-        email="test2@example.com",
-        name="MyUser2",
-        password="securepassword2"
-    )
 
 def create_invitation_model():
     return UserInvitationModel(

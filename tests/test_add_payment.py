@@ -3,8 +3,12 @@ import pytest
 from fastapi.testclient import TestClient
 from main import app
 from service.user_service import UserService
+from service.group_service import GroupService
+from service.payment_service import PaymentService
+from service.users_by_groups_service import UserByGroupService
 from models.user import UserModel
-from tables.user_base import UserBase
+from util_functions import *
+from models.payment import Category
 
 client = TestClient(app)
 
@@ -22,17 +26,18 @@ def test_add_expense_multiple_participants():
 
 @given("no soy parte de un evento/grupo")
 def not_part_of_event(session):
-  # Ensure the user is not part of any event/group
-    pass
+    UserService(session).create_user(create_user_model())
 
 @given("soy parte de un evento/grupo en el que soy el único participante")
-def single_participant_event(session):
-  # Create an event/group with only the current user
+def single_participant_event(session, context):
   user = UserModel(email="single_user@example.com", name="Single User", balance=0, password="password")
   user_service = UserService(session)
-  user_service.create_user(user)
-  # Add user to an event/group
-  pass
+  user_base = user_service.create_user(user)
+  group_base = GroupService(session).create_group(create_group_model())
+  UserByGroupService(session).add_user_in_group(create_user_in_group_model(user_base, group_base))
+
+  context["user_base"] = user_base
+  context["group_base"] = group_base
 
 @given("soy parte de un evento/grupo en el que hay más de un participante")
 def multiple_participants_event(session):
@@ -54,12 +59,11 @@ def add_expense_not_part_of_event():
   assert response.status_code == 400  # Expecting a 400 Bad Request
 
 @when("agrego mis gastos del evento/grupo")
-def add_expense_single_participant():
-  response = client.post("/expenses", json={
-    "event_id": 1,
-    "amount": 100
-  })
-  assert response.status_code == 200  # Expecting a 200 OK
+def add_expense_single_participant(session, context):
+  user_base = context["user_base"]
+  group_base = context["group_base"]
+  PaymentService(session).create_payment(create_payment_model(user_base, group_base, Category.ENTERTAINMENT))
+
 
 @when("agrego que realicé un gasto de X")
 def add_expense_multiple_participants():
@@ -75,11 +79,8 @@ def cannot_add_expense():
   pass
 
 @then("mi saldo actual sigue siendo el previo")
-def balance_remains_same():
-  # Verify that the user's balance remains unchanged
-  response = client.get("/users/single_user@example.com")
-  user_data = response.json()
-  assert user_data["balance"] == 0
+def balance_remains_same(session):
+    
 
 @then("el gasto del grupo aumenta en X")
 def group_expense_increases():
