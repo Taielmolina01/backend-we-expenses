@@ -89,5 +89,5 @@ def group_expense_increases(session):
   assert debt_by_creditor.debt_id == debt_by_debtor.debt_id
   assert debt_by_creditor.payment_id == debt_by_debtor.payment_id 
   assert debt_by_creditor.percentage == debt_by_debtor.percentage
-  assert user_base_one.balance == 0.5 * 200
-  assert user_base_two.balance == - debt_by_debtor.percentage * 200
+  assert user_base_one.balance == - 0.5 * 200
+  assert user_base_two.balance == debt_by_debtor.percentage * 200

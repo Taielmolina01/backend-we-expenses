@@ -21,15 +21,15 @@ class DebtRepository:
     def get_debts_by_user_and_group(self, 
                                     user_email: str, 
                                     group_id: int) -> list[DebtBase]:
-        return self.db.query(DebtBase).filter(DebtBase.debtor_id == user_email and DebtBase.group_id == group_id).all()
+        return self.db.query(DebtBase).filter(DebtBase.debtor_email == user_email and DebtBase.group_id == group_id).all()
     
     def get_debts_by_debtor(self, 
                             user_email: str) -> list[DebtBase]:
-        return self.db.query(DebtBase).filter(DebtBase.debtor_id == user_email).all()
+        return self.db.query(DebtBase).filter(DebtBase.debtor_email == user_email).all()
     
     def get_debts_by_creditor(self, 
                               user_email: str) -> list[DebtBase]:
-        return self.db.query(DebtBase).filter(DebtBase.creditor_id == user_email).all()
+        return self.db.query(DebtBase).filter(DebtBase.creditor_email == user_email).all()
 
     def get_debts_by_group(self, 
                            group_id: int) -> list[DebtBase]:

@@ -20,8 +20,8 @@ class DebtModel(BaseModel):
 class DebtUpdate(BaseModel):
     payment_id: Optional[int] = None
     group_id: Optional[int] = None
-    debtor_id: Optional[int] = None
-    creditor_id: Optional[int] = None
+    debtor_email: Optional[str] = None
+    creditor_email: Optional[str] = None
     percentage: Optional[float] = None
     state: Optional[DebtState] = None
 

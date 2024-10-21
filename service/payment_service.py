@@ -43,9 +43,10 @@ class PaymentService:
         for u in users:
             user = self.user_service.get_user(u.user_email)
             if user.email == payment.payer_email:
+                print(f"HOLAAAA: balance: {user.balance}, amount: {payment.amount}, percentage: {percentages[user.email]}")
                 self.user_service.update_user(user.email, UserUpdate(
                 name=user.name,
-                balance=user.balance - payment.amount + percentages[user.email]
+                balance=user.balance - payment.amount + percentages[user.email] * payment.amount
                 ))
             else:
                 self.debt_service.create_debt(DebtModel(payment_id=payment_response.payment_id, 
@@ -93,8 +94,19 @@ class PaymentService:
         
         # Recuperar los porcentajes originales del pago registrado
         original_percentages = self.__get_original_percentages(registered_payment)
-        new_payment = create_payment_from_model(payment_update)
-        users = self.user_by_group.get_users_by_group(new_payment.group_id)
+
+        if payment_update.group_id:
+            registered_payment.group_id = payment_update.group_id
+        if payment_update.payer_email:
+            registered_payment.payer_email = payment_update.payer_email
+        if payment_update.date:
+            registered_payment.date = payment_update.date
+        if payment_update.category:
+            registered_payment.category = payment_update.category
+        if payment_update.amount:
+            registered_payment.amount = payment_update.amount
+
+        users = self.user_by_group.get_users_by_group(payment_update.group_id)
         
         # Validar que los porcentajes coincidan con los usuarios
         if len(new_percentages) > len(users):
@@ -105,13 +117,13 @@ class PaymentService:
         for u in users:
             user = self.user_service.get_user(u.user_email)
             
-            if user.email == new_payment.payer_email:
+            if user.email == payment_update.payer_email:
                 # Actualizar el balance del pagador
                 # Sumar el pago original para revertir el efecto con el porcentaje original y restar el nuevo pago
                 original_share = original_percentages.get(user.email, 0) * registered_payment.amount
-                new_share = new_percentages.get(user.email, 0) * new_payment.amount
+                new_share = new_percentages.get(user.email, 0) * payment_update.amount
                 updated_balance = user.balance + registered_payment.amount - original_share
-                updated_balance -= new_payment.amount - new_share
+                updated_balance -= payment_update.amount - new_share
                 self.user_service.update_user(user.user_email, UserUpdate(
                     name=user.name,
                     balance=updated_balance
@@ -119,15 +131,15 @@ class PaymentService:
             else:
                 # Revertir el impacto de la deuda original con el porcentaje original y aplicar la nueva
                 original_debt = original_percentages.get(user.email, 0) * registered_payment.amount
-                new_debt = new_percentages.get(user.email, 0) * new_payment.amount
+                new_debt = new_percentages.get(user.email, 0) * payment_update.amount
                 updated_balance = user.balance + original_debt - new_debt
 
                 # Actualizar la deuda en la base de datos
                 self.debt_service.update_debt(DebtUpdate(
-                    payment_id=new_payment.payment_id,
-                    group_id=new_payment.group_id,
+                    payment_id=payment_update.payment_id,
+                    group_id=payment_update.group_id,
                     debtor_email=user.user_email,
-                    creditor_email=new_payment.payer_email,
+                    creditor_email=payment_update.payer_email,
                     percentage=new_percentages[user.email]
                 ))
                 # Actualizar el balance del usuario
@@ -137,7 +149,7 @@ class PaymentService:
                 ))
     
         # Actualizar el pago en la base de datos
-        return self.payment_repository.update_payment(new_payment)
+        return self.payment_repository.update_payment(registered_payment)
 
 
     def __update_user_balance(self, user: UserBase, payment: PaymentModel, percentages: list[int]):

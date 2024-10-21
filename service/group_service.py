@@ -34,7 +34,7 @@ class GroupService:
         group = self.get_group(group_id)
         if group_update.name is not None:
             group.name = group_update.name
-        return self.user_repository.update_user(create_group_from_model(group))
+        return self.user_repository.update_user(group)
     
     def delete_group(self,
                      group_id: int) -> bool:
