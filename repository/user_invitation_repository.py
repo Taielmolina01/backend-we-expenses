@@ -8,7 +8,7 @@ class UserInvitationRepository:
         self.db = db
 
     def create_invitation(self, 
-                          invitation: UserInvitationModel) -> UserInvitationBase:
+                          invitation: UserInvitationBase) -> UserInvitationBase:
         self.db.add(invitation)
         self.db.commit()
         self.db.refresh(invitation)

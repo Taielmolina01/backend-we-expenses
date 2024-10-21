@@ -4,6 +4,11 @@ from tables.group_base import GroupBase
 from repository.group_repository import GroupRepository
 from service.exceptions.groups_exceptions import *
 
+def create_group_from_model(group_model: GroupModel) -> GroupBase:
+    return GroupBase(
+        name=group_model.name
+    )
+
 class GroupService:
 
     def __init__(self,
@@ -12,30 +17,27 @@ class GroupService:
 
     def create_group(self,
                      group: GroupModel) -> GroupBase:
-        registered_group = self.get_group(group.group_id)
-        if registered_group is not None:
-            raise GroupAlreadyRegistered(group.group_id)
         if not group.name:
             raise GroupWithoutName()
-        return self.group_repository.create_group(group)
+        return self.group_repository.create_group(create_group_from_model(group))
 
     def get_group(self,
                 group_id: int) -> GroupBase:
         group = self.group_repository.get_group(group_id)
         if not group:
-            raise GroupNotRegistered(group.group_id)
+            raise GroupNotRegistered()
         return group
     
     def update_group(self, 
                     group_id: int, 
                     group_update: GroupUpdate) -> GroupBase:
-        group = self.get_user(group_id)
+        group = self.get_group(group_id)
         if group_update.name is not None:
             group.name = group_update.name
-        return self.user_repository.update_user(group)
+        return self.user_repository.update_user(create_group_from_model(group))
     
     def delete_group(self,
-                     group: GroupBase) -> bool:
-        group = self.get_group(group.group_id)
+                     group_id: int) -> bool:
+        group = self.get_group(group_id)
         return self.group_repository.delete_group(group)
         

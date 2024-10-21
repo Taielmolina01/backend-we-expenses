@@ -9,7 +9,7 @@ def create_invitation_from_model(user_invitation: UserInvitationModel) -> UserIn
     return UserInvitationBase(
         invitator_email = user_invitation.invitator_email,
         guest_email = user_invitation.guest_email,
-        id_group = user_invitation.id_group,
+        group_id = user_invitation.group_id,
         send_date = user_invitation.send_date,
         expire_date = user_invitation.expire_date
     )
@@ -28,6 +28,7 @@ class UserInvitationService:
             raise UserNotRegistered(invitation.invitator_email)
         if not registered_guest:
             raise UserNotRegistered(invitation.guest_email)
+        # deberia chequear que el invitador pertenezca efectivamente al grupo
         return self.invitation_repository.create_invitation(create_invitation_from_model(invitation))
         
         

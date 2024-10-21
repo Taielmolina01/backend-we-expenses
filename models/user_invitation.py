@@ -5,7 +5,7 @@ from datetime import date
 class UserInvitationModel(BaseModel):
     invitator_email: str
     guest_email: str
-    id_group: int
+    group_id: int
     send_date: date
     expire_date: date
 
@@ -15,7 +15,7 @@ class UserInvitationModel(BaseModel):
 class UserInvitationUpdate(BaseModel):
     invitator_email: Optional[str] = None
     guest_email: Optional[str] = None
-    id_group: Optional[int] = None
+    group_id: Optional[int] = None
     send_date: Optional[date] = None
     expire_date: Optional[date] = None
 

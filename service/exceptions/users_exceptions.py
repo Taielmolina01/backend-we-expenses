@@ -4,7 +4,7 @@ MESSAGE_USER_ALREADY_REGISTERED = "El usuario de id {user_email} ya existe"
 
 class UserNotRegistered(Exception):
     def __init__(self, user_email):
-        self.message = MESSAGE_USER_NOT_REGISTERED.format(user_email)
+        self.message = MESSAGE_USER_NOT_REGISTERED.format(user_email=user_email)
         super().__init__(self.message)
 
 class UserWithoutName(Exception):
@@ -14,5 +14,5 @@ class UserWithoutName(Exception):
 
 class UserAlreadyRegistered(Exception):
     def __init__(self, user_email):
-        self.message = MESSAGE_USER_ALREADY_REGISTERED.format(user_email)
+        self.message = MESSAGE_USER_ALREADY_REGISTERED.format(user_email=user_email)
         super().__init__(self.message)

@@ -18,7 +18,6 @@ async def create_user(user: UserModel,
                       db: Session = Depends(get_database)):
     try:
         hashed_password = get_password_hash(user.password)
-        print(hashed_password)
         new_user = UserModel(email=user.email,
                             name=user.name,
                             balance=user.balance,

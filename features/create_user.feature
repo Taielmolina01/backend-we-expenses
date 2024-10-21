@@ -1,7 +1,7 @@
 Feature: Registro de usuario
 
 Scenario: Registro con un email existente
-  Given no estoy registrado
+  Given estoy registrado
   When me quiero registrar con un email que ya existe previamente
   Then no puedo registrarme en la aplicación
 

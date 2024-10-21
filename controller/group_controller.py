@@ -9,10 +9,7 @@ router = APIRouter()
 @router.post("/groups")
 async def create_group(group: GroupModel,
                        db: Session = Depends(get_database)):
-    try:
-        return GroupService(db).create_group(group)
-    except GroupAlreadyRegistered as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
+    return GroupService(db).create_group(group)
     
 @router.get("/groups")
 async def get_groups(db: Session = Depends(get_database)):

@@ -10,6 +10,11 @@ class UserModel(BaseModel):
     class Config:
         orm_mode = True 
 
+class UserResponseModel(BaseModel):
+    email: str
+    name: str
+    balance: Optional[float] = 0
+
 class UserUpdate(BaseModel):
     email: Optional[str] = None
     name: Optional[str] = None

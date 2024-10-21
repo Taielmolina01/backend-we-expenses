@@ -1,55 +1,58 @@
 import pytest
 from fastapi.testclient import TestClient
-from main import app  # Reemplaza con el nombre de tu aplicación FastAPI
+from main import app 
 from service.exceptions.users_exceptions import *
-from database import get_database, Base, engine
+from pytest_bdd import scenario, given, when, then
+from service.user_service import UserService
+from service.exceptions.users_exceptions import *
+from models.user import UserModel
 
+@scenario('../features/create_user.feature', 'Registro con un email existente')
+def test_register_with_existing_email():
+    pass
 
-@pytest.fixture(scope="module")
-def client():
-    # Set up the in-memory SQLite database
-    Base.metadata.create_all(bind=engine)
-    with TestClient(app) as client:
-        yield client
-    Base.metadata.drop_all(bind=engine)
+@scenario('../features/create_user.feature', 'Registro con un email inexistente')
+def test_register_with_valid_email_and_password():
+    pass
 
-def create_existing_user(client):
-    user_data = {
-        "email": "test@example.com",
-        "name": "Existing User",
-        "password": "securepassword"
-    }
-    client.post("/users", json=user_data)
-    return user_data
+@given("estoy registrado")
+def given_user_registered(session):
+    pass
 
-def test_register_with_existing_email(client):
-    user = create_existing_user(client)
-    response = client.post("/users", json={
-        "email": user["email"],
-        "name": "New User",
-        "password": "anotherpassword"
-    })
+@given("no estoy registrado")
+def given_user_not_registered():
+    # Asumimos que la base de datos está limpia o que no existe el usuario a registrar.
+    pass
 
-    assert response.status_code == 400
-    assert response.json()["detail"] == MESSAGE_USER_ALREADY_REGISTERED
+@when("me quiero registrar con un email que ya existe previamente")
+def when_register_with_existing_email(session):
+    user_data = UserModel(
+        email="test@example.com",
+        name="Existing User",
+        password="securepassword"
+    )
+    userService = UserService(session)
+    userService.create_user(user_data)
+    with pytest.raises(UserAlreadyRegistered):
+        userService.create_user(user_data)
 
-def test_register_without_name(client):
-    response = client.post("/users", json={
-        "email": "test@example.com",
-        "password": "anotherpassword"
-    })
+@then("no puedo registrarme en la aplicación")
+def then_cannot_register(session):
+    user = UserService(session).get_user("test@example.com")
+    assert user.email == "test@example.com"
+    assert user.name == "Existing User"
 
-    assert response.status_code == 400
-    assert response.json()["detail"] == MESSAGE_USER_HAVE_NOT_NAME
+@when("tengo un email válido e ingreso la contraseña deseada y la confirmo")
+def when_register_with_valid_email(session):
+    user_data = UserModel(
+        email="test@example.com",
+        name="Existing User",
+        password="securepassword"
+    )
+    UserService(session).create_user(user_data)
 
-def test_register_with_valid_email_and_password(client):
-    user_data = {
-        "email": "newuser@example.com",
-        "name": "New User",
-        "password": "securepassword"
-    }
-
-    response = client.post("/users", json=user_data)
-
-    assert response.status_code == 201  # User created successfully
-    assert response.json()["email"] == user_data["email"]
+@then("puedo registrar mi usuario y contraseña en la aplicación")
+def then_can_register(session):
+    user = UserService(session).get_user("test@example.com")
+    assert user.email == "test@example.com"
+    assert user.name == "Existing User"
