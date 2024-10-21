@@ -45,7 +45,7 @@ class UserService:
             user.name = user_update.name
         if user_update.balance:
             user.balance = user_update.balance
-        return self.user_repository.update_user(create_user_from_model(user))
+        return self.user_repository.update_user(user)
         
        
     def delete_user(self, 
