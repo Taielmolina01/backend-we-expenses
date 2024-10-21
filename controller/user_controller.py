@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from database import get_database
 from sqlalchemy.orm import Session
-from models.user import UserModel, UserUpdate
+from models.user import UserModel, UserUpdate, UserResponseModel
 from models.login import *
 from service.user_service import UserService
 from service.exceptions.users_exceptions import *
@@ -9,9 +9,15 @@ from utils.login_utils import get_password_hash, verify_password, SECRET_KEY, AL
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordRequestForm
-
+from tables.user_base import UserBase
 
 router = APIRouter()
+
+def create_response_model(user: UserBase) -> UserResponseModel:
+        return UserResponseModel(email=user.email,
+                                name=user.name,
+                                balance=user.balance,
+        )
 
 @router.post("/users")
 async def create_user(user: UserModel, 
@@ -36,7 +42,7 @@ async def get_users(db: Session = Depends(get_database)):
 async def get_user(user_email: str,
                    db: Session = Depends(get_database)):
     try:
-        return UserService(db).get_user(user_email)
+        return create_response_model(UserService(db).get_user(user_email))
     except UserNotRegistered as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)        
 

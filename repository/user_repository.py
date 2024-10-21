@@ -7,28 +7,22 @@ class UserRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_response_model(self, user: UserBase) -> UserResponseModel:
-        return UserResponseModel(email=user.email,
-                                name=user.name,
-                                balance=user.balance,
-        )
-
     def create_user(self, 
-                    user: UserBase) -> UserResponseModel:
+                    user: UserBase) -> UserBase:
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)
         return user
     
-    def get_users(self) -> list[UserResponseModel]:
+    def get_users(self) -> list[UserBase]:
         return self.db.query(UserBase).all()
 
     def get_user(self, 
-                 email: str) -> UserResponseModel:
+                 email: str) -> UserBase:
         return self.db.query(UserBase).filter(UserBase.email == email).first()
     
     def update_user(self, 
-                    user: UserBase) -> UserResponseModel:
+                    user: UserBase) -> UserBase:
         self.db.commit()
         self.db.refresh(user)
         return user

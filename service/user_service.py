@@ -19,7 +19,7 @@ class UserService:
         self.user_repository = UserRepository(db)
 
     def create_user(self,
-                    user: UserModel) -> UserResponseModel:
+                    user: UserModel) -> UserBase:
         registered_user = self.user_repository.get_user(user.email)
         if registered_user:
            raise UserAlreadyRegistered(user.email)
@@ -28,18 +28,18 @@ class UserService:
         return self.user_repository.create_user(create_user_from_model(user))
        
     def get_user(self, 
-                 user_email: str) -> UserResponseModel:
+                 user_email: str) -> UserBase:
         user = self.user_repository.get_user(user_email)
         if not user:
             raise UserNotRegistered(user_email)
         return user
        
-    def get_users(self) -> list[UserResponseModel]:
+    def get_users(self) -> list[UserBase]:
        return self.user_repository.get_users()
 
     def update_user(self, 
                     user_email: str, 
-                    user_update: UserUpdate) -> UserResponseModel:
+                    user_update: UserUpdate) -> UserBase:
         user = self.get_user(user_email)
         if user_update.name:
             user.name = user_update.name
