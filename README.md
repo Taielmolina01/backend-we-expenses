@@ -28,3 +28,15 @@ recien ahi instalas dependencias con
 y ahi corres
 
 `uvicorn main:app --reload`
+
+## TEST
+
+Te paras sobre la carpeta padre y corres
+
+`pytest`
+
+si queres correr uno en particular es
+
+`pytest tests/test_a_probar.py`
+
+
