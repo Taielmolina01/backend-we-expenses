@@ -31,7 +31,7 @@ app.title = "OurExpenses"
 app.version = "1.0"
 
 origins = [
-    "http://localhost:5173"
+    "null"
 ]
 
 app.add_middleware(
