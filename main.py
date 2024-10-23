@@ -8,17 +8,21 @@ from controller.users_by_groups_controller import router as users_by_groups_cont
 from database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
+
+origins = [
+    "http://localhost:5173"
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+Base.metadata.create_all(bind=engine)
 
 @app.head("/")
 def head():
