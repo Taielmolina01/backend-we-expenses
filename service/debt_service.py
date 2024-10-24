@@ -4,7 +4,7 @@ from models.debt import DebtModel, DebtUpdate, DebtState
 from repository.debt_repository import DebtRepository
 from service.exceptions.debts_exceptions import *
 from service.user_service import UserService
-from service.balance_service import BalanceService
+#from service.balance_service import BalanceService
 from models.user import UserUpdate
 
 def create_debt_from_model(debt_model: DebtModel) -> DebtBase:
@@ -23,7 +23,7 @@ class DebtService:
                  db: Session):
         self.debt_repository = DebtRepository(db)
         self.user_service = UserService(db)
-        self.balance_service = BalanceService()
+   #     self.balance_service = BalanceService()
 
     def create_debt(self,
                     debt: DebtModel) -> DebtBase:
