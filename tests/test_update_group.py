@@ -10,19 +10,19 @@ from models.user import UserModel
 from models.group import GroupModel
 from service.group_service import GroupService
 
-@scenario('../features/update_grupo.feature', 'Actualizar siendo un usuario no registrado')
+@scenario('../features/update_group.feature', 'Actualizar siendo un usuario no registrado')
 def test_update_group_with_unregistered_user():
     pass
 
-@scenario('../features/update_grupo.feature', 'Actualizar siendo un usuario registrado un grupo inexistente')
+@scenario('../features/update_group.feature', 'Actualizar siendo un usuario registrado un grupo inexistente')
 def test_update_unregistered_group_with_registered_user():
     pass
 
-@scenario('../features/update_grupo.feature', 'Actualizo siendo un usuario registrado con datos inválidos un grupo existente')
+@scenario('../features/update_group.feature', 'Actualizar siendo un usuario registrado con datos inválidos un grupo existente')
 def test_update_with_invalid_fields_registered_group_with_registered_user():
     pass
 
-@scenario('../features/update_grupo.feature', 'Actualizo siendo un usuario registrado con datos válidos un grupo existente')
+@scenario('../features/update_group.feature', 'Actualizar siendo un usuario registrado con datos válidos un grupo existente')
 def test_update_with_valid_fields_registered_group_with_registered_user():
     pass
 

@@ -7,15 +7,15 @@ from service.user_service import UserService
 from service.exceptions.users_exceptions import *
 from models.user import UserModel
 
-@scenario('../features/update_user.feature', 'Actualizo un usuario inexistente')
+@scenario('../features/update_user.feature', 'Actualizar un usuario inexistente')
 def test_update_unregistered_user():
     pass
 
-@scenario('../features/update_user.feature', 'Actualizo un usuario existente con datos inválidos')
+@scenario('../features/update_user.feature', 'Actualizar un usuario existente con datos inválidos')
 def test_update_registered_user_with_invalid_fields():
     pass
 
-@scenario('../features/update_user.feature', 'Actualizo un usuario existente con datos válidos')
+@scenario('../features/update_user.feature', 'Actualizar un usuario existente con datos válidos')
 def test_update_registered_user_with_valid_feilds():
     pass
 

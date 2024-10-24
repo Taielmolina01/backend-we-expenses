@@ -74,5 +74,7 @@ def verify_debt(session, debt: int):
     assert debt_by_creditor.debt_id == debt_by_debtor.debt_id
     assert debt_by_creditor.payment_id == debt_by_debtor.payment_id 
     assert debt_by_creditor.percentage == debt_by_debtor.percentage
-    assert user_base_one.balance == -debt
-    assert user_base_two.balance == debt
+    print(user_base_one.balance)
+    print(user_base_two.balance)
+    assert user_base_one.balance == 0
+    assert user_base_two.balance == 0

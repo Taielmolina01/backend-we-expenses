@@ -1,14 +1,16 @@
-Feature: Borrar grupo
-  Como usuario perteneciente a un grupo
-  Quiero borrar el grupo
-  Para no tener grupos que ya no utilizamos
+Feature: Eliminar grupo
 
-  Scenario: Borrar grupo siendo administrador
-    Given soy administrador del grupo
-    When selecciono la opción de borrar el grupo
-    Then el grupo se elimina permanentemente y no está disponible en la lista de grupos.
+  Scenario: Borrar grupo siendo un usuario no registrado
+    Given no estoy registrado
+    When elimino un grupo
+    Then no se elimina
 
-  Scenario: Borrar grupo sin ser administrador
-    Given no soy administrador del grupo
-    When intento borrar el grupo
-    Then no puedo borrarlo y me avisa que no tengo permisos.
+  Scenario: Borrar grupo siendo usuario registrado no siendo parte del grupo
+    Given estoy registrado
+    When elimino un grupo en el que no soy parte
+    Then se me indica que no pertenezco al grupo
+
+  Scenario: Borrar grupo siendo usuario registrado siendo parte del grupo
+    Given estoy registrado
+    When elimino un grupo en el que soy parte
+    Then se elimina

@@ -1,8 +1,11 @@
 from sqlalchemy.orm import Session
 from tables.debt_base import DebtBase
-from models.debt import DebtModel, DebtUpdate
+from models.debt import DebtModel, DebtUpdate, DebtState
 from repository.debt_repository import DebtRepository
 from service.exceptions.debts_exceptions import *
+from service.user_service import UserService
+from service.balance_service import BalanceService
+from models.user import UserUpdate
 
 def create_debt_from_model(debt_model: DebtModel) -> DebtBase:
     return DebtBase(
@@ -19,6 +22,8 @@ class DebtService:
     def __init__(self,
                  db: Session):
         self.debt_repository = DebtRepository(db)
+        self.user_service = UserService(db)
+        self.balance_service = BalanceService()
 
     def create_debt(self,
                     debt: DebtModel) -> DebtBase:
@@ -54,7 +59,7 @@ class DebtService:
                     debt_update: DebtUpdate) -> DebtBase:
         debt = self.get_debt(debt_id)
         if not debt:
-            raise DebtNotRegistered(debt.debt_id)
+            raise DebtNotRegistered(debt_id)
         if debt_update.creditor_email:
             debt.creditor_email = debt_update.creditor_email
         if debt_update.debtor_email:
@@ -65,16 +70,43 @@ class DebtService:
             debt.payment_id = debt_update.payment_id
         if debt_update.percentage:
             debt.percentage = debt_update.percentage
+            self.__update_balances(debt, debt_update)
         if debt_update.state:
+            self.__update_balances(debt, debt_update)
             debt.state = debt_update.state
-            self.__update_debt(debt, debt_update)
         return self.debt_repository.update_debt(debt)
 
-    def __update_debt(self,
-                      original_debt: DebtBase,
-                      debt_update: DebtUpdate):
-        pass
-        
+    def __update_balances(self,
+                        original_debt: DebtBase,
+                        debt_update: DebtUpdate):
+        debtor = self.user_service.get_user(original_debt.debtor_email)
+        creditor = self.user_service.get_user(original_debt.creditor_email)
+
+        # amount = self.payment_and_debts_service.get_amount_by_debt(original_debt)
+
+        # if debt_update.state and debt_update.state != original_debt.state:
+
+
+        #     if debt_update.state == DebtState.PAID and original_debt.state == DebtState.UNPAID:
+        #         debtor.balance -= amount
+        #         creditor.balance += amount
+                
+        #     elif debt_update.state == DebtState.UNPAID and original_debt.state == DebtState.PAID:
+        #         debtor.balance += amount
+        #         creditor.balance -= amount
+
+        # if debt_update.percentage and debt_update.percentage != original_debt.percentage:
+
+
+        #     difference = debt_update.percentage - original_debt.percentage
+        #     amount_change = amount * difference
+
+        #     debtor.balance -= amount_change
+        #     creditor.balance += amount_change
+
+        # self.user_service.update_user(debtor.email, UserUpdate(balance=debtor.balance))
+        # self.user_service.update_user(creditor.email, UserUpdate(balance=creditor.balance))
+
 
     def delete_debt(self,
                     debt: DebtModel) -> bool:

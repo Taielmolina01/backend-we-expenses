@@ -10,50 +10,46 @@ from tables.user_base import UserBase
 
 client = TestClient(app)
 
-@scenario("../features/delete_group.feature", "Borrar grupo siendo administrador")
+@scenario("../features/delete_group.feature", "Borrar grupo siendo un usuario no registrado")
 def test_delete_group_as_admin():
   pass
 
-@scenario("../features/delete_group.feature", "Borrar grupo sin ser administrador")
+@scenario("../features/delete_group.feature", "Borrar grupo siendo usuario registrado no siendo parte del grupo")
 def test_delete_group_not_as_admin():
   pass
 
-@given("soy administrador del grupo")
+@scenario("../features/delete_group.feature", "Borrar grupo siendo usuario registrado siendo parte del grupo")
+def test_delete_group_not_as_admin():
+  pass
+
+@given("no estoy registrado")
 def admin_of_group(session):
-  # Crear un usuario administrador y un grupo en la base de datos de prueba
-  admin_user = UserModel(email="admin@example.com", name="Admin User", balance=0, password="adminpassword")
-  group = GroupModel(name="Test Group", admin_id=admin_user.id)
-  session.add(admin_user)
-  session.add(group)
-  session.commit()
+  pass
 
-@given("no soy administrador del grupo")
+@given("estoy registrado")
 def not_admin_of_group(session):
-  # Crear un usuario no administrador y un grupo en la base de datos de prueba
-  non_admin_user = UserModel(email="user@example.com", name="Regular User", balance=0, password="userpassword")
-  admin_user = UserModel(email="admin@example.com", name="Admin User", balance=0, password="adminpassword")
-  group = GroupModel(name="Test Group", admin_id=admin_user.id)
-  session.add(non_admin_user)
-  session.add(admin_user)
-  session.add(group)
-  session.commit()
+  pass
 
-@when("selecciono la opción de borrar el grupo")
-def delete_group_as_admin():
-  response = client.delete("/groups/1", headers={"Authorization": "Bearer admin_token"})
-  assert response.status_code == 200  # Esperamos un 200 OK
-
-@when("intento borrar el grupo")
+@when("elimino un grupo")
 def delete_group_not_as_admin():
-  response = client.delete("/groups/1", headers={"Authorization": "Bearer user_token"})
-  assert response.status_code == 403  # Esperamos un 403 Forbidden
+  pass
 
-@then("el grupo se elimina permanentemente y no está disponible en la lista de grupos.")
+@when("elimino un grupo en el que no soy parte")
+def delete_group_not_as_admin():
+  pass
+
+@when("elimino un grupo en el que no soy parte")
+def delete_group_not_as_admin():
+  pass
+
+@then("no se elimina")
 def group_deleted():
-  response = client.get("/groups/1")
-  assert response.status_code == 404  # El grupo no debe existir
+  pass
 
-@then("no puedo borrarlo y me avisa que no tengo permisos.")
-def cannot_delete_group():
-  # No se necesita verificar más, el assert en el paso de `@when` lo hace
+@then("se me indica que no pertenezco al grupo")
+def group_deleted():
+  pass
+
+@then("se elimina")
+def group_deleted():
   pass

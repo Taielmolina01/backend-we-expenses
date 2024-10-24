@@ -33,11 +33,16 @@ class GroupService:
                     group_update: GroupUpdate) -> GroupBase:
         group = self.get_group(group_id)
         if group_update.name is not None:
+            if group_update.name == "":
+                raise GroupWithoutName()
             group.name = group_update.name
-        return self.user_repository.update_user(group)
+        return self.group_repository.update_group(group)
     
     def delete_group(self,
                      group_id: int) -> bool:
         group = self.get_group(group_id)
+        # tengo que borrar pagos
+        # tengo que borrar deudas
+        # tengo que borrar conexiones usuarios grupo
         return self.group_repository.delete_group(group)
         

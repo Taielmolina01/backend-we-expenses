@@ -1,9 +1,5 @@
 Feature: Actualizar grupo
 
-  Como usuario perteneciente a un grupo
-  Quiero actualizar el grupo
-  Para poder manter la información al día
-
   Scenario: Actualizar siendo un usuario no registrado
     Given no estoy registrado
     When actualizo mi grupo
