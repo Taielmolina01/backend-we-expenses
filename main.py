@@ -10,6 +10,16 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 Base.metadata.create_all(bind=engine)
 
 @app.head("/")
@@ -30,12 +40,3 @@ app.include_router(users_by_groups_controller)
 app.title = "OurExpenses"
 app.version = "1.0"
 
-origins = ["*"]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
