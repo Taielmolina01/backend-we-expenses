@@ -18,7 +18,6 @@ def test_not_registered():
 def test_registered_and_wrong_password():
     pass
 
-
 @scenario('../features/login_user.feature', 'Estoy registrado e ingreso bien la contraseña')
 def test_registered_and_correct_password():
     pass
@@ -39,7 +38,6 @@ def when_register_with_existing_email(session):
         name="Existing User",
         password="securepassword"
     )
-
 
 @when("inicio sesión")
 def when_register_with_existing_email(session):

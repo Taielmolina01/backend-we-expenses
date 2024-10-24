@@ -45,7 +45,6 @@ def multiple_participants_event(session):
   UserByGroupService(session).add_user_in_group(create_user_in_group_model(user_base_one, group_base))
   UserByGroupService(session).add_user_in_group(create_user_in_group_model(user_base_two, group_base))
 
-
 @when("agrego mis gastos")
 def add_expense_not_part_of_event():
   pass
