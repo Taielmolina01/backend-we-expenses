@@ -1,5 +1,4 @@
-from fastapi import FastAPI, Request
-import time
+from fastapi import FastAPI
 from controller.group_controller import router as group_controller
 from controller.user_controller import router as user_controller
 from controller.payment_controller import router as payment_controller
@@ -7,9 +6,7 @@ from controller.debt_controller import router as debt_controller
 from controller.user_invitation_controller import router as user_invitation_controller
 from controller.users_by_groups_controller import router as users_by_groups_controller
 from database import engine, Base
-from starlette.middleware.cors import CORSMiddleware
-from starlette.middleware.base import BaseHTTPMiddleware
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -33,15 +30,12 @@ app.include_router(users_by_groups_controller)
 app.title = "OurExpenses"
 app.version = "1.0"
 
-class MyMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        start_time = time.time()
-        response = await call_next(request)
-        process_time = time.time() - start_time
-        response.headers["X-Process-Time"] = str(process_time)
-        return response
+origins = ["*"]
 
-
-origins = ["http://localhost:5173", "http://localhost:5173"]
-app.add_middleware(MyMiddleware)
-app.add_middleware(CORSMiddleware, allow_origins=origins)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
