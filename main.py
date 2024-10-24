@@ -6,7 +6,7 @@ from controller.debt_controller import router as debt_controller
 from controller.user_invitation_controller import router as user_invitation_controller
 from controller.users_by_groups_controller import router as users_by_groups_controller
 from database import engine, Base
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
