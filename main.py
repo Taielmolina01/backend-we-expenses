@@ -8,6 +8,8 @@ from controller.user_invitation_controller import router as user_invitation_cont
 from controller.users_by_groups_controller import router as users_by_groups_controller
 from database import engine, Base
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+
 
 app = FastAPI()
 
