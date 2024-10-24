@@ -16,4 +16,4 @@ Feature: Configurar división de gastos
   Scenario: Configurar división sin ser administrador
     Given no soy administrador del grupo
     When intento cambiar la forma de dividir los gastos
-    Then no puedo hacerlo y me avisa que no tengo permisos.
+    Then no puedo hacerlo y me avisa que no tengo permisos

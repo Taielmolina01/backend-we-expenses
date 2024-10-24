@@ -1,7 +1,10 @@
 from pytest_bdd import scenario, given, when, then
-from main import app  # Asegúrate de importar tu aplicación FastAPI
+from main import app  
+from service.user_invitation_service import *
 from service.user_service import UserService
 from models.user import UserModel
+from service.group_service import GroupService
+from util_functions import *
 
 @scenario("../features/create_event.feature", "Invitar miembros registrados a un evento")
 def test_invite_unregisted_members():
@@ -18,21 +21,21 @@ def user_registered(session):
     user_service.create_user(user)
 
 @when('invito a mi evento a los miembros por nombres de usuario registrados')
-def step_impl(context):
+def step_impl(session):
     #todo()
     pass 
 
 @then('los invito')
-def step_impl(context):
+def step_impl(session):
     #todo()
     pass
 
 @when('invito a mi evento a los miembros por nombres de usuario no registrados')
-def step_impl(context):
+def step_impl(session):
     #todo()
     pass
 
 @then('no los invito y me avisa diciendo “no existe ese usuario”')
-def step_impl(context):
+def step_impl(session):
     #todo()
     pass
