@@ -52,11 +52,11 @@ class UserByGroupService:
         return self.users_by_groups_repository.get_users_by_group(group_id)
     
     def get_groups_by_user(self,
-                           user_id: int) -> list[UserInGroupBase]:
-        user = self.group_service.get_group(user_id)
+                           user_email: str) -> list[UserInGroupBase]:
+        user = self.user_service.get_user(user_email)
         if not user:
-            raise UserNotRegistered(user_id)
-        return self.users_by_groups_repository.get_groups_by_user(user_id)
+            raise UserNotRegistered(user_email)
+        return self.users_by_groups_repository.get_groups_by_user(user_email)
     
     def delete_user_in_group(self,
                              user_in_group: UserByGroupModel) -> UserInGroupBase:

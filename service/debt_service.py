@@ -67,7 +67,14 @@ class DebtService:
             debt.percentage = debt_update.percentage
         if debt_update.state:
             debt.state = debt_update.state
+            self.__update_debt(debt, debt_update)
         return self.debt_repository.update_debt(debt)
+
+    def __update_debt(self,
+                      original_debt: DebtBase,
+                      debt_update: DebtUpdate):
+        pass
+        
 
     def delete_debt(self,
                     debt: DebtModel) -> bool:
