@@ -1,24 +1,25 @@
 Feature: Actualizar grupo
+
   Como usuario perteneciente a un grupo
-  Quiero cambiar el nombre o la foto del grupo
-  Para poder actualizarlo
+  Quiero actualizar el grupo
+  Para poder manter la información al día
 
-  Scenario: Cambiar foto siendo administrador
-    Given soy administrador del grupo
-    When subo una nueva foto para el grupo
-    Then la foto del grupo se actualiza correctamente
+  Scenario: Actualizar siendo un usuario no registrado
+    Given no estoy registrado
+    When actualizo mi grupo
+    Then se me indica que no estoy registrado 
 
-  Scenario: Cambiar foto sin ser administrador
-    Given no soy administrador del grupo
-    When intento cambiar la foto del grupo
-    Then no puedo cambiarla y me avisa que no tengo permisos.
+  Scenario: Actualizar siendo un usuario registrado un grupo inexistente
+    Given estoy registrado y no existe mi grupo
+    When actualizo mi grupo inexistente
+    Then se me indica que no existe el grupo
 
-  Scenario: Cambiar nombre siendo administrador
-    Given soy administrador del grupo
-    When cambio el nombre del grupo y lo confirmo
-    Then el nombre del grupo se actualiza correctamente
+  Scenario: Actualizar siendo un usuario registrado con datos inválidos un grupo existente
+    Given estoy registrado y existe mi grupo
+    When actualizo mi grupo con datos inválidos
+    Then no se actualiza
 
-  Scenario: Cambiar nombre sin ser administrador
-    Given no soy administrador del grupo
-    When intento cambiar el nombre del grupo
-    Then no puedo cambiarlo y me avisa que no tengo permisos.
+  Scenario: Actualizar siendo un usuario registrado con datos válidos un grupo existente
+    Given estoy registrado y existe mi grupo
+    When actualizo mi grupo con datos válidos
+    Then se actualiza
